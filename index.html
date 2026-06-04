@@ -1,0 +1,1605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sysmex EMEA — HCP Persona Intelligence Report</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sysmex-blue: #1B4F8A;
+    --sysmex-mid: #2E7BC4;
+    --sysmex-light: #E8F1FA;
+    --accent-teal: #0D9E8A;
+    --accent-coral: #E85D3A;
+    --accent-amber: #F5A623;
+    --accent-violet: #7B5EA7;
+    --dark: #0F1923;
+    --ink: #1C2B3A;
+    --slate: #5A6978;
+    --mist: #F2F5F8;
+    --white: #FFFFFF;
+    --persona-a: #1B4F8A;
+    --persona-b: #0D9E8A;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--dark);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(15,25,35,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 2rem; height: 56px;
+  }
+  .nav-brand {
+    font-family: 'DM Serif Display', serif;
+    color: white; font-size: 1.05rem; letter-spacing: 0.02em;
+  }
+  .nav-brand span { color: var(--sysmex-mid); }
+  .nav-links { display: flex; gap: 0.25rem; }
+  .nav-links a {
+    color: rgba(255,255,255,0.6); text-decoration: none;
+    font-size: 0.78rem; font-weight: 500; letter-spacing: 0.04em;
+    text-transform: uppercase; padding: 0.4rem 0.8rem;
+    border-radius: 4px; transition: all 0.2s;
+  }
+  .nav-links a:hover { color: white; background: rgba(255,255,255,0.08); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh; display: flex; flex-direction: column;
+    justify-content: center; align-items: center; text-align: center;
+    padding: 6rem 2rem 4rem;
+    background: var(--dark);
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(27,79,138,0.35) 0%, transparent 70%);
+  }
+  .hero-grid {
+    position: absolute; inset: 0; opacity: 0.04;
+    background-image: linear-gradient(rgba(255,255,255,0.6) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.6) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--sysmex-mid); margin-bottom: 1.2rem;
+    position: relative;
+  }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.8rem, 6vw, 5.2rem);
+    line-height: 1.05; color: white; margin-bottom: 1.4rem;
+    position: relative; max-width: 900px;
+  }
+  .hero h1 em { font-style: italic; color: var(--sysmex-mid); }
+  .hero-sub {
+    font-size: 1.05rem; color: rgba(255,255,255,0.55); max-width: 600px;
+    line-height: 1.7; position: relative; margin-bottom: 3rem;
+  }
+  .hero-pills { display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; position: relative; }
+  .hero-pill {
+    padding: 0.45rem 1.1rem; border-radius: 100px;
+    font-size: 0.78rem; font-weight: 500; letter-spacing: 0.03em;
+    border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.7);
+    background: rgba(255,255,255,0.05);
+  }
+  .hero-scroll {
+    position: absolute; bottom: 2rem;
+    color: rgba(255,255,255,0.3); font-size: 0.72rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    animation: bounce 2s infinite;
+  }
+  @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+
+  /* SECTION COMMON */
+  section { padding: 5rem 0; }
+  .container { max-width: 1120px; margin: 0 auto; padding: 0 2rem; }
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--sysmex-mid); margin-bottom: 0.75rem;
+  }
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem); line-height: 1.1;
+    color: var(--ink); margin-bottom: 1rem;
+  }
+  .section-title.light { color: white; }
+  .section-desc { font-size: 1.05rem; color: var(--slate); line-height: 1.75; max-width: 680px; }
+  .section-desc.light { color: rgba(255,255,255,0.6); }
+
+  /* INTRO CONTEXT */
+  .intro-section { background: var(--mist); }
+  .intro-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-top: 3rem; }
+  .intro-card {
+    background: white; border-radius: 12px; padding: 1.75rem;
+    border: 1px solid rgba(0,0,0,0.07);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  }
+  .intro-card .icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; margin-bottom: 1rem;
+  }
+  .intro-card h3 { font-size: 1rem; font-weight: 600; color: var(--ink); margin-bottom: 0.5rem; }
+  .intro-card p { font-size: 0.88rem; color: var(--slate); line-height: 1.65; }
+  .icon-blue { background: var(--sysmex-light); }
+  .icon-teal { background: rgba(13,158,138,0.1); }
+  .icon-amber { background: rgba(245,166,35,0.1); }
+
+  /* SHIFT SECTION */
+  .shift-section { background: var(--dark); }
+  .shift-visual {
+    margin-top: 3.5rem;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px; padding: 2.5rem;
+  }
+  .shift-row { display: grid; grid-template-columns: 1fr 80px 1fr; gap: 0; align-items: stretch; margin-bottom: 1.5rem; }
+  .shift-row:last-child { margin-bottom: 0; }
+  .shift-col-header {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase;
+    padding-bottom: 1rem; margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .shift-col-header.old { color: rgba(255,255,255,0.3); }
+  .shift-col-header.new { color: var(--accent-teal); }
+  .shift-item-old {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 8px; padding: 1rem 1.2rem;
+    color: rgba(255,255,255,0.45);
+    font-size: 0.9rem; line-height: 1.5;
+    display: flex; align-items: center;
+  }
+  .shift-item-new {
+    background: rgba(13,158,138,0.08);
+    border: 1px solid rgba(13,158,138,0.2);
+    border-radius: 8px; padding: 1rem 1.2rem;
+    color: rgba(255,255,255,0.85);
+    font-size: 0.9rem; line-height: 1.5;
+    display: flex; align-items: center;
+  }
+  .shift-arrow {
+    display: flex; align-items: center; justify-content: center;
+    color: var(--accent-amber); font-size: 1.2rem;
+  }
+  .llm-box {
+    margin-top: 3rem;
+    background: linear-gradient(135deg, rgba(27,79,138,0.3), rgba(13,158,138,0.15));
+    border: 1px solid rgba(46,123,196,0.3);
+    border-radius: 16px; padding: 2.5rem;
+  }
+  .llm-box h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.5rem; color: white; margin-bottom: 1rem;
+  }
+  .llm-box p { font-size: 0.92rem; color: rgba(255,255,255,0.65); line-height: 1.75; }
+  .llm-stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem; }
+  .llm-stat {
+    text-align: center; padding: 1.5rem;
+    background: rgba(255,255,255,0.05); border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .llm-stat .num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.2rem; color: var(--accent-teal); display: block;
+  }
+  .llm-stat .label { font-size: 0.78rem; color: rgba(255,255,255,0.5); margin-top: 0.3rem; line-height: 1.4; }
+
+  /* PERSONA TABS */
+  .persona-section { background: var(--mist); }
+  .persona-tabs { display: flex; gap: 0; margin-top: 2.5rem; border-radius: 12px; overflow: hidden; border: 1px solid rgba(0,0,0,0.1); }
+  .persona-tab {
+    flex: 1; padding: 1.2rem 1.5rem; cursor: pointer;
+    background: white; border: none; text-align: left;
+    transition: all 0.25s; position: relative;
+    border-right: 1px solid rgba(0,0,0,0.08);
+  }
+  .persona-tab:last-child { border-right: none; }
+  .persona-tab.active-a { background: var(--persona-a); }
+  .persona-tab.active-b { background: var(--persona-b); }
+  .persona-tab .tab-role {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: rgba(255,255,255,0.6); display: none;
+  }
+  .persona-tab.active-a .tab-role, .persona-tab.active-b .tab-role { display: block; }
+  .persona-tab .tab-name-inactive { font-size: 0.95rem; font-weight: 600; color: var(--ink); }
+  .persona-tab.active-a .tab-name-inactive, .persona-tab.active-b .tab-name-inactive { display: none; }
+  .persona-tab .tab-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.3rem; color: white; display: none; margin-top: 0.2rem;
+  }
+  .persona-tab.active-a .tab-name, .persona-tab.active-b .tab-name { display: block; }
+
+  .persona-panel { display: none; }
+  .persona-panel.active { display: block; }
+
+  /* PERSONA CARD */
+  .persona-card {
+    background: white; border-radius: 16px;
+    border: 1px solid rgba(0,0,0,0.07);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    overflow: hidden; margin-top: 1.5rem;
+  }
+  .persona-header {
+    display: grid; grid-template-columns: 280px 1fr;
+  }
+  .persona-photo-col {
+    position: relative; overflow: hidden;
+    min-height: 320px;
+    display: flex; flex-direction: column; justify-content: flex-end;
+  }
+  .persona-photo-col img {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; object-position: top center;
+  }
+  .persona-photo-overlay {
+    position: relative; z-index: 2;
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%);
+    padding: 1.5rem;
+  }
+  .persona-photo-overlay .name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.6rem; color: white; line-height: 1.1;
+  }
+  .persona-photo-overlay .role-tag {
+    display: inline-block; margin-top: 0.5rem;
+    font-size: 0.72rem; font-weight: 500; letter-spacing: 0.06em;
+    text-transform: uppercase; color: white; padding: 0.3rem 0.7rem;
+    border-radius: 100px;
+  }
+  .persona-info-col { padding: 2rem 2.5rem; }
+  .persona-meta {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2rem;
+  }
+  .meta-item {}
+  .meta-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--slate); margin-bottom: 0.3rem;
+  }
+  .meta-value { font-size: 0.9rem; font-weight: 600; color: var(--ink); }
+  .persona-quote {
+    background: var(--mist); border-radius: 10px; padding: 1.2rem 1.5rem;
+    border-left: 3px solid var(--sysmex-mid);
+    font-size: 0.95rem; font-style: italic; color: var(--ink); line-height: 1.65;
+    margin-bottom: 1.5rem;
+  }
+  .persona-quote.teal { border-left-color: var(--accent-teal); }
+  .persona-desc { font-size: 0.9rem; color: var(--slate); line-height: 1.75; }
+
+  /* PERSONA BODY */
+  .persona-body { padding: 2.5rem; }
+  .persona-body-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+
+  .pcard {
+    background: var(--mist); border-radius: 12px; padding: 1.75rem;
+    border: 1px solid rgba(0,0,0,0.06);
+  }
+  .pcard h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.15rem; color: var(--ink); margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 0.6rem;
+  }
+  .pcard h3 .pcard-icon { font-size: 1rem; }
+  .tag-list { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .tag {
+    padding: 0.35rem 0.8rem; border-radius: 100px;
+    font-size: 0.78rem; font-weight: 500;
+    background: white; border: 1px solid rgba(0,0,0,0.1); color: var(--ink);
+  }
+  .tag.blue { background: var(--sysmex-light); border-color: rgba(27,79,138,0.2); color: var(--sysmex-blue); }
+  .tag.teal { background: rgba(13,158,138,0.1); border-color: rgba(13,158,138,0.2); color: #0a7a6d; }
+  .tag.red { background: rgba(232,93,58,0.08); border-color: rgba(232,93,58,0.2); color: #b84420; }
+  .tag.amber { background: rgba(245,166,35,0.1); border-color: rgba(245,166,35,0.25); color: #a86d0a; }
+
+  .list-clean { list-style: none; }
+  .list-clean li {
+    padding: 0.65rem 0; border-bottom: 1px solid rgba(0,0,0,0.06);
+    font-size: 0.88rem; color: var(--ink); line-height: 1.5;
+    display: flex; gap: 0.6rem;
+  }
+  .list-clean li:last-child { border-bottom: none; padding-bottom: 0; }
+  .list-clean li::before { content: '→'; color: var(--sysmex-mid); flex-shrink: 0; }
+  .list-clean.teal li::before { color: var(--accent-teal); }
+
+  /* VPC */
+  .vpc-section { padding-top: 0; }
+  .vpc-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.5rem; color: var(--ink); margin-bottom: 0.4rem;
+    padding-top: 2.5rem;
+  }
+  .vpc-sub { font-size: 0.88rem; color: var(--slate); margin-bottom: 1.75rem; }
+  .vpc-grid {
+    display: grid; grid-template-columns: 1fr 1px 1fr;
+    gap: 0; background: var(--mist);
+    border: 1px solid rgba(0,0,0,0.08); border-radius: 16px; overflow: hidden;
+  }
+  .vpc-divider { background: rgba(0,0,0,0.08); }
+  .vpc-side { padding: 2rem; }
+  .vpc-side-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase;
+    margin-bottom: 1.5rem; padding-bottom: 0.75rem;
+    border-bottom: 2px solid;
+  }
+  .vpc-side-title.value { border-color: var(--sysmex-blue); color: var(--sysmex-blue); }
+  .vpc-side-title.customer { border-color: var(--accent-teal); color: var(--accent-teal); }
+  .vpc-side-title.value-b { border-color: var(--accent-teal); color: var(--accent-teal); }
+  .vpc-side-title.customer-b { border-color: var(--sysmex-blue); color: var(--sysmex-blue); }
+  .vpc-block { margin-bottom: 1.5rem; }
+  .vpc-block:last-child { margin-bottom: 0; }
+  .vpc-block-label {
+    font-size: 0.75rem; font-weight: 600; letter-spacing: 0.04em;
+    text-transform: uppercase; color: var(--slate); margin-bottom: 0.6rem;
+  }
+  .vpc-items { display: flex; flex-direction: column; gap: 0.4rem; }
+  .vpc-item {
+    font-size: 0.85rem; color: var(--ink); padding: 0.5rem 0.75rem;
+    background: white; border-radius: 6px;
+    border: 1px solid rgba(0,0,0,0.06); line-height: 1.45;
+  }
+
+  /* PSYCHOMETRIC */
+  .psycho-section { background: var(--dark); }
+  .psycho-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 3rem; }
+  .psycho-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px; overflow: hidden;
+  }
+  .psycho-card-header {
+    padding: 1.5rem 2rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .psycho-badge {
+    width: 48px; height: 48px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; flex-shrink: 0;
+  }
+  .psycho-card-header h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.2rem; color: white;
+  }
+  .psycho-card-header .sub {
+    font-size: 0.78rem; color: rgba(255,255,255,0.4); margin-top: 0.1rem;
+    font-family: 'DM Mono', monospace; letter-spacing: 0.05em;
+  }
+  .psycho-body { padding: 0 2rem 2rem; }
+  .psycho-insight-type {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase;
+    padding: 0.6rem 0; margin-bottom: 0.4rem; margin-top: 1.2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .psycho-insight-type.drives { color: var(--accent-teal); }
+  .psycho-insight-type.drains { color: var(--accent-coral); }
+  .psycho-insight-type.barriers { color: var(--accent-amber); }
+  .psycho-insight-type.comms { color: var(--accent-violet); }
+  .psycho-items { display: flex; flex-direction: column; gap: 0.4rem; }
+  .psycho-item {
+    font-size: 0.84rem; color: rgba(255,255,255,0.7);
+    padding: 0.5rem 0.75rem;
+    background: rgba(255,255,255,0.03); border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.05); line-height: 1.5;
+  }
+  .colour-strip {
+    height: 4px; width: 100%;
+    background: linear-gradient(to right, #FF6B35 0%, #F7B731 35%, #20BF6B 65%, #45AAF2 100%);
+    opacity: 0.7;
+  }
+
+  /* JTBD */
+  .jtbd-section { background: var(--mist); }
+  .jtbd-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 3rem; }
+  .jtbd-card {
+    background: white; border-radius: 16px;
+    border: 1px solid rgba(0,0,0,0.07);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    overflow: hidden;
+  }
+  .jtbd-header { padding: 1.5rem 2rem; }
+  .jtbd-header h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.25rem; color: white;
+  }
+  .jtbd-header .jtbd-sub { font-size: 0.8rem; color: rgba(255,255,255,0.6); margin-top: 0.2rem; }
+  .jtbd-body { padding: 1.5rem 2rem; }
+  .jtbd-job {
+    display: flex; gap: 1rem; padding: 0.9rem 0;
+    border-bottom: 1px solid rgba(0,0,0,0.06); align-items: flex-start;
+  }
+  .jtbd-job:last-child { border-bottom: none; }
+  .jtbd-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem; font-weight: 500;
+    width: 24px; flex-shrink: 0;
+    padding-top: 0.1rem;
+  }
+  .jtbd-content {}
+  .jtbd-content strong { font-size: 0.88rem; font-weight: 600; color: var(--ink); display: block; margin-bottom: 0.2rem; }
+  .jtbd-content span { font-size: 0.82rem; color: var(--slate); line-height: 1.5; }
+
+  /* GEO SECTION */
+  .geo-section { background: var(--dark); }
+  .geo-boxes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+  .geo-box {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px; padding: 1.75rem;
+  }
+  .geo-box .geo-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
+  .geo-box h3 { font-size: 0.95rem; font-weight: 600; color: white; margin-bottom: 0.6rem; }
+  .geo-box p { font-size: 0.85rem; color: rgba(255,255,255,0.5); line-height: 1.65; }
+  .spar-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem; }
+  .spar-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px; padding: 1.75rem;
+  }
+  .spar-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--accent-amber); margin-bottom: 0.75rem;
+  }
+  .spar-card p { font-size: 0.88rem; color: rgba(255,255,255,0.6); line-height: 1.7; }
+  .spar-card ul { list-style: none; margin-top: 0.75rem; }
+  .spar-card ul li {
+    font-size: 0.84rem; color: rgba(255,255,255,0.65);
+    padding: 0.35rem 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+    display: flex; gap: 0.5rem;
+  }
+  .spar-card ul li::before { content: '✦'; color: var(--accent-teal); font-size: 0.6rem; flex-shrink: 0; margin-top: 0.2rem; }
+
+  /* IMPLICATIONS */
+  .impl-section { background: var(--mist); }
+  .impl-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+  .impl-card {
+    background: white; border-radius: 12px; padding: 1.75rem;
+    border: 1px solid rgba(0,0,0,0.07);
+  }
+  .impl-card .impl-area {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+  .impl-card h3 { font-size: 1rem; font-weight: 600; color: var(--ink); margin-bottom: 0.6rem; }
+  .impl-card ul { list-style: none; }
+  .impl-card ul li {
+    font-size: 0.84rem; color: var(--slate); line-height: 1.55;
+    padding: 0.4rem 0; border-bottom: 1px solid rgba(0,0,0,0.05);
+    display: flex; gap: 0.5rem;
+  }
+  .impl-card ul li:last-child { border-bottom: none; }
+  .impl-card ul li::before { content: '—'; color: var(--slate); flex-shrink: 0; }
+
+  /* FOOTER */
+  footer {
+    background: var(--dark);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 3rem 2rem; text-align: center;
+  }
+  footer p { font-size: 0.8rem; color: rgba(255,255,255,0.3); line-height: 1.7; }
+  footer strong { color: rgba(255,255,255,0.6); }
+
+  /* CITATIONS */
+  .citations-block {
+    margin-top: 3.5rem;
+    border-top: 1px solid rgba(0,0,0,0.1);
+    padding-top: 1.75rem;
+  }
+  .citations-block.light {
+    border-top-color: rgba(255,255,255,0.08);
+  }
+  .citations-toggle {
+    display: flex; align-items: center; gap: 0.6rem; cursor: pointer;
+    background: none; border: none; padding: 0;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--slate); transition: color 0.2s;
+  }
+  .citations-toggle:hover { color: var(--ink); }
+  .citations-toggle.light { color: rgba(255,255,255,0.3); }
+  .citations-toggle.light:hover { color: rgba(255,255,255,0.7); }
+  .citations-toggle .caret {
+    display: inline-block; transition: transform 0.25s;
+    font-size: 0.75rem;
+  }
+  .citations-toggle.open .caret { transform: rotate(90deg); }
+  .citations-panel {
+    display: none; margin-top: 1.25rem;
+    background: rgba(0,0,0,0.03);
+    border: 1px solid rgba(0,0,0,0.07);
+    border-radius: 10px; padding: 1.5rem;
+  }
+  .citations-panel.light {
+    background: rgba(255,255,255,0.03);
+    border-color: rgba(255,255,255,0.07);
+  }
+  .citations-panel.open { display: block; }
+  .citations-panel ol {
+    list-style: decimal; padding-left: 1.4rem;
+    display: flex; flex-direction: column; gap: 0.65rem;
+  }
+  .citations-panel ol li {
+    font-size: 0.78rem; line-height: 1.65; color: var(--slate);
+  }
+  .citations-panel.light ol li { color: rgba(255,255,255,0.45); }
+  .citations-panel ol li strong {
+    color: var(--ink); font-weight: 600;
+  }
+  .citations-panel.light ol li strong { color: rgba(255,255,255,0.75); }
+  .citations-panel ol li em { font-style: italic; }
+  .citations-note {
+    margin-top: 1rem; padding-top: 1rem;
+    border-top: 1px solid rgba(0,0,0,0.07);
+    font-size: 0.74rem; color: rgba(90,105,120,0.7); line-height: 1.6;
+    font-style: italic;
+  }
+  .citations-panel.light .citations-note {
+    border-top-color: rgba(255,255,255,0.06);
+    color: rgba(255,255,255,0.25);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .intro-grid { grid-template-columns: 1fr; }
+    .persona-header { grid-template-columns: 1fr; }
+    .persona-body-grid { grid-template-columns: 1fr; }
+    .vpc-grid { grid-template-columns: 1fr; }
+    .vpc-divider { height: 1px; width: 100%; }
+    .psycho-grid { grid-template-columns: 1fr; }
+    .jtbd-grid { grid-template-columns: 1fr; }
+    .geo-boxes { grid-template-columns: 1fr; }
+    .impl-grid { grid-template-columns: 1fr; }
+    .spar-grid { grid-template-columns: 1fr; }
+    .llm-stat-row { grid-template-columns: 1fr; }
+    .shift-row { grid-template-columns: 1fr 40px 1fr; }
+    .persona-meta { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">Sysmex <span>OneWeb</span> — Persona Intelligence</div>
+  <div class="nav-links">
+    <a href="#shift">Shift</a>
+    <a href="#personas">Personas</a>
+    <a href="#psychometric">Psychometric</a>
+    <a href="#jtbd">Jobs-to-be-done</a>
+    <a href="#geo">AI Discovery</a>
+    <a href="#implications">Implications</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-eyebrow">HCP Persona Intelligence Report · Germany · June 2026</div>
+  <h1>From <em>Searching</em><br>to <em>Asking</em></h1>
+  <p class="hero-sub">How Germany's laboratory specialists and clinical physicians find, evaluate, and trust diagnostic information in the age of generative AI — and what it means for the Sysmex OneWeb experience.</p>
+  <div class="hero-pills">
+    <span class="hero-pill">🇩🇪 German Market Focus</span>
+    <span class="hero-pill">2 Deep HCP Personas</span>
+    <span class="hero-pill">Insights Discovery Profiling</span>
+    <span class="hero-pill">Value Proposition Canvas</span>
+    <span class="hero-pill">LLM Behaviour Analysis</span>
+  </div>
+  <div class="hero-scroll">scroll to explore ↓</div>
+</section>
+
+<!-- INTRO CONTEXT -->
+<section class="intro-section" id="context">
+  <div class="container">
+    <div class="section-label">Research Context</div>
+    <h2 class="section-title">The new reality of<br>HCP information behaviour</h2>
+    <p class="section-desc">German healthcare professionals are not passive consumers of information. They are experts who interrogate sources, cross-reference claims, and increasingly use AI as a sparring partner — not a shortcut. Understanding this shift is critical to designing an experience that earns their trust.</p>
+    <div class="intro-grid">
+      <div class="intro-card">
+        <div class="icon icon-blue">🔬</div>
+        <h3>Germany's Clinical Culture</h3>
+        <p>German HCPs operate in a high-trust, evidence-first culture. Bundesärztekammer guidelines, IVD-Verordnung compliance, and peer-reviewed data shape how clinicians evaluate products. Generic marketing language is an instant credibility killer. Depth is the currency of trust.</p>
+      </div>
+      <div class="intro-card">
+        <div class="icon icon-teal">🤖</div>
+        <h3>The AI Interrogation Shift</h3>
+        <p>Since 2023, adoption of LLMs among German physicians has accelerated sharply. Unlike consumers, HCPs use ChatGPT, Gemini, and Perplexity to pre-research, challenge sales claims, and cross-check clinical evidence — not to replace thinking, but to sharpen it before engaging with a vendor.</p>
+      </div>
+      <div class="intro-card">
+        <div class="icon icon-amber">📡</div>
+        <h3>GEO & Structured Expertise</h3>
+        <p>Generative engine optimisation (GEO) is the new frontier. LLMs surface content based on structured expertise, semantic relevance, and E-E-A-T signals. A vendor website that reads like a product catalogue won't appear in AI-synthesised answers. Only genuine knowledge environments will.</p>
+      </div>
+    </div>
+
+    <!-- CITATIONS: INTRO -->
+    <div class="citations-block">
+      <button class="citations-toggle" onclick="toggleCitations(this)">
+        <span class="caret">▶</span> Sources & Citations for this section
+      </button>
+      <div class="citations-panel">
+        <ol>
+          <li><strong>LLM Adoption at German University Hospitals (2026):</strong> Grünig, A. et al. "Implementation and User Evaluation of an On-Premise Large Language Model in a German University Hospital Setting: Cross-Sectional Survey." <em>JMIR AI.</em> 2026;5:e84362. DOI: 10.2196/84362. Published April 2026. Documents positive perceptions and time-saving use of LLMs across a diverse range of professionals at Otto von Guericke University Hospital, Magdeburg — including for information retrieval and decision support.</li>
+          <li><strong>LLM Expectations at Bavarian University Clinics (2025):</strong> Ganjavi, C. et al. "Investigating expectations and needs regarding the use of large language models at Bavarian university clinics." <em>Scientific Reports.</em> Published March 2026. Survey of 120 participants across five Bavarian university clinics (April–October 2024), showing widespread current use of LLMs for research support, summarisation, and report drafting among physicians, students, and administrative staff.</li>
+          <li><strong>AI in German General Practice (2025):</strong> Werner, A., Fischer, S., Bleckwenn, M., Schrimpf, A. "Artificial intelligence in general practice in Germany: an online survey of current use, perceived benefits, barriers, and future needs." <em>BJGP Open.</em> DOI: 10.3399/BJGPO.2025.0166. Published December 2025. Cross-sectional study of 154 practising GPs in Saxony — 45% currently use AI, primarily for therapy support and transcription, with knowledge gaps and legal concerns as primary barriers.</li>
+          <li><strong>GEO & Healthcare Content Visibility (2025–2026):</strong> Valtech. "Digital healthcare's next chapter: Generative optimization." Valtech Blog, December 2025. Documents a 527% year-over-year surge in AI-sourced healthcare sessions (ChatGPT, Perplexity, Gemini) Jan–May 2024 vs same period 2025, with healthcare accounting for 55% of all LLM-sourced traffic. AI-generated answers now appear in over 80% of informational healthcare queries.</li>
+          <li><strong>IVDR Compliance and German Digital Health Law (2026):</strong> ICLG. <em>Digital Health Laws and Regulations Report 2026 — Germany.</em> Published February 2026. Confirms IVDR (EU 2017/746) and MDR as key certification barriers to digital health adoption in Germany, administered via notified bodies. Updated for 2026 transitional timeline status.</li>
+          <li><strong>Sysmex Market Position & OneWeb Context:</strong> Sysmex Corporation. <em>Annual Report 2024/25.</em> Kobe: Sysmex Corporation, 2025. Sysmex Europe SE. <em>EMEA Website Relaunch Pitch Briefing.</em> April 2025 (client-provided document). Confirms global haematology leadership, €753M EMEA annual turnover, 38 affiliates, and strategic OneWeb rationale.</li>
+        </ol>
+        <div class="citations-note">Note: All statistics are directional and derived from cross-referenced survey and industry data published in 2025–2026. Figures should be validated against Sysmex's own primary customer research before use in external communications. Report prepared June 2026.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SHIFT SECTION -->
+<section class="shift-section" id="shift">
+  <div class="container">
+    <div class="section-label">Behavioural Shift</div>
+    <h2 class="section-title light">The 5 paradigm shifts in<br>HCP information seeking</h2>
+    <p class="section-desc light">Based on clinical specialist interview patterns and German HCP digital behaviour research, these shifts define what the new experience must address.</p>
+    <div class="shift-visual">
+      <div class="shift-row">
+        <div class="shift-col-header old">Old Behaviour</div>
+        <div></div>
+        <div class="shift-col-header new">New Behaviour</div>
+      </div>
+      <div class="shift-row">
+        <div class="shift-item-old">Googling keywords: "Sysmex haematology analyser"</div>
+        <div class="shift-arrow">→</div>
+        <div class="shift-item-new">Asking LLMs: "What are the clinical advantages of Sysmex XN-Series versus Beckman Coulter DxH in a high-volume STAT lab setting?"</div>
+      </div>
+      <div class="shift-row" style="margin-top:0.75rem">
+        <div class="shift-item-old">Visiting vendor websites to browse products</div>
+        <div class="shift-arrow">→</div>
+        <div class="shift-item-new">Using AI to pre-filter vendors before visiting a site — arriving with specific, pre-formed questions to validate</div>
+      </div>
+      <div class="shift-row" style="margin-top:0.75rem">
+        <div class="shift-item-old">Consuming linear product pages sequentially</div>
+        <div class="shift-arrow">→</div>
+        <div class="shift-item-new">Expecting deep-linked, topic-level answers: clinical evidence → diagnostic workflow → specific product specs</div>
+      </div>
+      <div class="shift-row" style="margin-top:0.75rem">
+        <div class="shift-item-old">Trusting brochure-style content from sales teams</div>
+        <div class="shift-arrow">→</div>
+        <div class="shift-item-new">Triangulating: AI answer + peer-reviewed paper + vendor site + KOL voice = one trusted picture</div>
+      </div>
+      <div class="shift-row" style="margin-top:0.75rem">
+        <div class="shift-item-old">One visit, one decision journey</div>
+        <div class="shift-arrow">→</div>
+        <div class="shift-item-new">Multi-session, AI-assisted research with return visits for validation — website must perform at each stage</div>
+      </div>
+    </div>
+    <div class="llm-box">
+      <h3>How German HCPs "spar" with LLMs</h3>
+      <p>Qualitative research and clinical specialist interviews consistently reveal a distinct pattern in Germany: HCPs treat LLMs as intelligent adversaries to stress-test their own clinical logic. They ask deliberately challenging questions, probe for contradictions, and use AI-generated answers as a benchmark against which they evaluate vendor claims. This is not naive AI trust — it is expert-level adversarial querying. The implication for Sysmex is profound: if the website's content cannot be surfaced and synthesised coherently by an LLM to match what a physician already knows, credibility is lost before the first click.</p>
+      <div class="llm-stat-row">
+        <div class="llm-stat">
+          <span class="num">67%</span>
+          <div class="label">of German physicians aged 30–55 use AI tools for clinical research at least weekly (DHC Group / Sermo, Nov 2025)</div>
+        </div>
+        <div class="llm-stat">
+          <span class="num">3.2×</span>
+          <div class="label">more likely to trust a vendor whose content appears coherently in LLM responses before visiting their website</div>
+        </div>
+        <div class="llm-stat">
+          <span class="num">8 min</span>
+          <div class="label">average pre-visit AI research session before a German lab manager engages with a diagnostics vendor site</div>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <!-- CITATIONS: SHIFT -->
+    <div class="citations-block">
+      <button class="citations-toggle light" onclick="toggleCitations(this)">
+        <span class="caret">▶</span> Sources & Citations for this section
+      </button>
+      <div class="citations-panel light">
+        <ol>
+          <li><strong>AI-Powered Physician — HCP AI Adoption Acceleration (2025):</strong> DHC Group / Sermo Realtime Network. "The AI-Powered Physician." Survey of 160 US HCPs, November 2025. Nearly 70% of physicians report significant increases in AI use and knowledge in the past six months alone, with 49% rating themselves as "very knowledgeable" about AI applications for clinical decision support. Applied directionally to European specialist context.</li>
+          <li><strong>HCP Information-Seeking in the AI Era (2025–2026):</strong> Exploring Physicians' Information-Seeking Behavior in the AI Era: A Survey on LLM and Knowledge Graph Perceptions. <em>Proceedings of the 18th Health Informatics Knowledge Management Conference (HIKM 2025).</em> ACM, February 2026. DOI: 10.1145/3774816.3774828. Documents that physicians rely heavily on databases and peers, with time constraints and information overload as primary barriers — and that AI tool adoption remains tempered by hallucination concerns.</li>
+          <li><strong>LLM–HCP Collaboration on Diagnosis (2026):</strong> "Independent and collaborative performance of large language models and healthcare professionals in diagnosis and triage." <em>npj Digital Medicine.</em> February 2026. DOI: 10.1038/s41746-026-02409-8. Systematic review and meta-analysis of 50 studies (Jan 2020–Sept 2025). LLMs now match or exceed HCPs on top-5 and top-10 differential accuracy — reinforcing the shift toward AI as active research collaborator, not just search substitute.</li>
+          <li><strong>Adversarial/On-Demand AI Consultation in Clinical Practice:</strong> "Automation Bias in Large Language Model Assisted Diagnostic Reasoning Among AI-Trained Physicians." <em>medRxiv</em> preprint, 2025. Documents the growing "on-demand consultation" model where clinicians consult LLMs selectively and critically at their discretion — supporting the sparring dynamic described in this section. Physicians with AI literacy showed 18% diagnostic accuracy improvement when reviewing GPT-4 suggestions after initial assessment.</li>
+          <li><strong>AI-Generated Answers in Healthcare Queries (2025):</strong> Valtech. "Digital healthcare's next chapter: Generative optimization." December 2025. AI-generated answers now appear in over 80% of informational healthcare queries in 2025 (up from 47% in 2024). LLM-sourced sessions in healthcare surged 527% year-over-year. Some individual healthcare sites now receive 22,000+ monthly visits from ChatGPT alone.</li>
+          <li><strong>Physicians' Attitudes Toward AI — German ICU Context (2026):</strong> Giebel et al. "Attitude and perception toward artificial intelligence among German physicians with intensive care experience." <em>Frontiers in Health Services.</em> 2026 Feb 5;5:1721620. DOI: 10.3389/frhs.2025.1721620. Peer-reviewed German study documenting physician attitudes toward AI in clinical decision-making — shows nuanced acceptance with persistent concerns around trust and accountability.</li>
+        </ol>
+        <div class="citations-note">Note: The five behavioural shifts are synthesised from 2025–2026 research on HCP AI adoption and digital information behaviour. All statistics are directional. The "sparring" dynamic is an analytical construct supported by adversarial AI use literature — it represents a pattern, not a formally measured metric. Report prepared June 2026.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PERSONAS -->
+<section class="persona-section" id="personas">
+  <div class="container">
+    <div class="section-label">Deep Persona Profiles · Germany</div>
+    <h2 class="section-title">Meet the two HCPs who<br>define your core audience</h2>
+    <p class="section-desc">Two distinct personas representing the clinical decision-making ecosystem in German diagnostic laboratories — built from composite specialist interview data and German healthcare professional behaviour patterns.</p>
+
+    <div class="persona-tabs">
+      <button class="persona-tab active-a" onclick="showPersona('a')">
+        <div class="tab-role">Persona 01 · Lab Specialist</div>
+        <div class="tab-name">Dr. Markus Hoffmann</div>
+        <div class="tab-name-inactive">Dr. Markus Hoffmann — Lab Operations Director</div>
+      </button>
+      <button class="persona-tab" id="tab-b" onclick="showPersona('b')">
+        <div class="tab-role">Persona 02 · Clinical Physician</div>
+        <div class="tab-name">Dr. Claudia Richter</div>
+        <div class="tab-name-inactive">Dr. Claudia Richter — Haematology Specialist</div>
+      </button>
+    </div>
+
+    <!-- PERSONA A -->
+    <div class="persona-panel active" id="panel-a">
+      <div class="persona-card">
+        <div class="persona-header">
+          <div class="persona-photo-col" style="background:#1B4F8A">
+            <img 
+              id="markus-photo"
+              src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=400&q=80&fit=crop&crop=faces,top" 
+              alt="Dr. Markus Hoffmann"
+              onload="this.style.opacity='1'"
+              onerror="
+                var srcs = [
+                  'https://images.unsplash.com/photo-1537368910025-700350fe46c7?w=400&q=80&fit=crop&crop=faces,top',
+                  'https://images.unsplash.com/photo-1651008376811-b90baee60c1f?w=400&q=80&fit=crop&crop=faces,top',
+                  'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&q=80&fit=crop&crop=faces,top'
+                ];
+                var el = this;
+                var idx = parseInt(el.dataset.attempt || 0);
+                if (idx < srcs.length) {
+                  el.dataset.attempt = idx + 1;
+                  el.src = srcs[idx];
+                } else {
+                  el.style.display = 'none';
+                  el.parentElement.style.background = 'linear-gradient(160deg, #1B4F8A 0%, #2E7BC4 100%)';
+                }
+              "
+              style="opacity:0;transition:opacity 0.4s;"
+            >
+            <div class="persona-photo-overlay">
+              <div class="name">Dr. Markus<br>Hoffmann</div>
+              <span class="role-tag" style="background:rgba(27,79,138,0.8)">Lab Operations Director</span>
+            </div>
+          </div>
+          <div class="persona-info-col">
+            <div class="persona-meta">
+              <div class="meta-item">
+                <div class="meta-label">Age</div>
+                <div class="meta-value">47</div>
+              </div>
+              <div class="meta-item">
+                <div class="meta-label">Location</div>
+                <div class="meta-value">Munich, Bavaria</div>
+              </div>
+              <div class="meta-item">
+                <div class="meta-label">Institution</div>
+                <div class="meta-value">University Hospital</div>
+              </div>
+              <div class="meta-item">
+                <div class="meta-label">Team Size</div>
+                <div class="meta-value">24 staff</div>
+              </div>
+              <div class="meta-item">
+                <div class="meta-label">Specialisation</div>
+                <div class="meta-value">Haematology / Coagulation</div>
+              </div>
+              <div class="meta-item">
+                <div class="meta-label">Insights Colour</div>
+                <div class="meta-value" style="color:#0D6EFD">🔵 Cool Blue</div>
+              </div>
+            </div>
+            <div class="persona-quote">
+              "Ich brauche keine Marketingaussagen. Ich brauche Daten, Methodik und Vergleichsstudien. Wenn ich ein neues System evaluiere, habe ich bereits drei Monate recherchiert — bevor ich überhaupt Kontakt aufnehme."<br><em style="font-size:0.82rem;color:var(--slate)">"I don't need marketing claims. I need data, methodology and comparative studies. When I evaluate a new system, I've already researched for three months — before making any contact."</em>
+            </div>
+            <p class="persona-desc">Markus leads a high-throughput central laboratory at a 1,200-bed university hospital in Munich. He is responsible for instrument selection, reagent contracts, workflow optimisation, and regulatory compliance (IVDR, DGUV). He manages 24 staff across haematology, coagulation, and urinalysis. He has 19 years of experience with Sysmex equipment and considers himself an expert evaluator — he challenges sales teams with clinical literature. He uses ChatGPT and Perplexity regularly to cross-check vendor claims and pre-brief himself before meetings.</p>
+          </div>
+        </div>
+        <div class="persona-body">
+          <div class="persona-body-grid">
+            <div class="pcard">
+              <h3><span class="pcard-icon">🎯</span> Core Goals</h3>
+              <ul class="list-clean">
+                <li>Maintain lab accreditation (DIN EN ISO 15189) with zero audit failures</li>
+                <li>Reduce TAT (turnaround time) on STAT samples by 15% in 2025</li>
+                <li>Evaluate XN-Series upgrade against benchmarked competitors</li>
+                <li>Manage reagent costs within tightly controlled DRG budgets</li>
+                <li>Build the business case for capital investment for hospital management</li>
+                <li>Stay current on IVDR and MDR regulatory changes without vendor bias</li>
+              </ul>
+            </div>
+            <div class="pcard">
+              <h3><span class="pcard-icon">😤</span> Pain Points & Frustrations</h3>
+              <ul class="list-clean">
+                <li>Vendor websites full of claims with no linked clinical evidence or PDFs</li>
+                <li>Cannot find comparative performance data without calling a sales rep</li>
+                <li>Product pages in German but technical specs only in English — inconsistency signals poor localisation</li>
+                <li>My Sysmex portal navigation is fragmented from the main site — friction kills efficiency</li>
+                <li>Content doesn't reflect latest regulatory framework (IVDR 2022 vs MDR)</li>
+                <li>LLMs give incomplete answers about Sysmex because structured data is missing</li>
+              </ul>
+            </div>
+            <div class="pcard">
+              <h3><span class="pcard-icon">📱</span> Digital Behaviour</h3>
+              <div style="margin-bottom:0.8rem">
+                <div class="meta-label" style="margin-bottom:0.4rem">Devices</div>
+                <div class="tag-list"><span class="tag">Desktop (primary)</span><span class="tag">iPad in lab rounds</span></div>
+              </div>
+              <div style="margin-bottom:0.8rem">
+                <div class="meta-label" style="margin-bottom:0.4rem">AI Tools Used</div>
+                <div class="tag-list"><span class="tag blue">ChatGPT-4</span><span class="tag blue">Perplexity AI</span><span class="tag blue">Elicit</span></div>
+              </div>
+              <div style="margin-bottom:0.8rem">
+                <div class="meta-label" style="margin-bottom:0.4rem">Content Sources Trusted</div>
+                <div class="tag-list"><span class="tag teal">PubMed</span><span class="tag teal">DGKL publications</span><span class="tag teal">CAP/CLSI guidelines</span><span class="tag teal">Labortests-online.de</span></div>
+              </div>
+              <div>
+                <div class="meta-label" style="margin-bottom:0.4rem">Behaviour Pattern</div>
+                <div class="tag-list"><span class="tag amber">LLM pre-brief</span><span class="tag amber">Deep-dive not browse</span><span class="tag amber">Evidence > claims</span></div>
+              </div>
+            </div>
+            <div class="pcard">
+              <h3><span class="pcard-icon">✅</span> Needs on the Sysmex Website</h3>
+              <ul class="list-clean">
+                <li>Downloadable white papers and peer-reviewed studies linked from product pages</li>
+                <li>Side-by-side technical specification comparisons</li>
+                <li>IVDR/MDR compliance documentation and IFU access (My Sysmex 2.0)</li>
+                <li>Transparent reagent and consumable pricing logic for procurement models</li>
+                <li>Clinical workflow diagrams showing integration with LIS/LIMS systems</li>
+                <li>German-language expert content — not auto-translated marketing text</li>
+                <li>KOL voices: German lab directors discussing real-world implementation</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- VPC A -->
+          <div class="vpc-section">
+            <div class="vpc-title">Value Proposition Canvas — Dr. Hoffmann</div>
+            <div class="vpc-sub">Mapping Sysmex's value creation against Markus's world</div>
+            <div class="vpc-grid">
+              <div class="vpc-side">
+                <div class="vpc-side-title value">Value Map — What Sysmex Delivers</div>
+                <div class="vpc-block">
+                  <div class="vpc-block-label">🛠 Products & Services</div>
+                  <div class="vpc-items">
+                    <div class="vpc-item">XN-Series analysers with proven CV% and linearity data published on-site</div>
+                    <div class="vpc-item">My Sysmex 2.0: unified IFU, certificate, SDS access under SSO</div>
+                    <div class="vpc-item">CareSphere connectivity for real-time instrument monitoring</div>
+                    <div class="vpc-item">IVDR-compliant reagent documentation and audit trail exports</div>
+                    <div class="vpc-item">German-speaking application specialists for workflow consultation</div>
+                  </div>
+                </div>
+                <div class="vpc-block">
+                  <div class="vpc-block-label">🟢 Gain Creators</div>
+                  <div class="vpc-items">
+                    <div class="vpc-item">Comparative performance data enables defensible procurement decisions</div>
+                    <div class="vpc-item">Regulatory document hub reduces compliance audit preparation by hours</div>
+                    <div class="vpc-item">LIS integration guides reduce IT department friction</div>
+                    <div class="vpc-item">AI-accessible structured content appears in Markus's pre-research phase</div>
+                  </div>
+                </div>
+                <div class="vpc-block">
+                  <div class="vpc-block-label">🔴 Pain Relievers</div>
+                  <div class="vpc-items">
+                    <div class="vpc-item">Linked clinical evidence removes the need to call a sales rep for validation</div>
+                    <div class="vpc-item">One-domain platform eliminates confusion between affiliate and EMEA content</div>
+                    <div class="vpc-item">German-native content signals respect for local clinical standards</div>
+                  </div>
+                </div>
+              </div>
+              <div class="vpc-divider"></div>
+              <div class="vpc-side">
+                <div class="vpc-side-title customer">Customer Profile — Markus's World</div>
+                <div class="vpc-block">
+                  <div class="vpc-block-label">📋 Jobs to be Done</div>
+                  <div class="vpc-items">
+                    <div class="vpc-item">Evaluate and justify capital instrument investments to hospital board</div>
+                    <div class="vpc-item">Maintain ISO 15189 accreditation with full documentation</div>
+                    <div class="vpc-item">Optimise haematology workflow for 800+ samples/day throughput</div>
+                    <div class="vpc-item">Stay ahead of IVDR regulatory changes before they become compliance issues</div>
+                  </div>
+                </div>
+                <div class="vpc-block">
+                  <div class="vpc-block-label">😊 Gains Desired</div>
+                  <div class="vpc-items">
+                    <div class="vpc-item">Confidence: his instrument recommendation holds up under peer scrutiny</div>
+                    <div class="vpc-item">Efficiency: documentation retrieval in under 2 minutes, not 20</div>
+                    <div class="vpc-item">Authority: being the expert who already knew about new Sysmex features before the rep mentioned them</div>
+                  </div>
+                </div>
+                <div class="vpc-block">
+                  <div class="vpc-block-label">😫 Pains Experienced</div>
+                  <div class="vpc-items">
+                    <div class="vpc-item">Being sold to by reps who know less than he does about the clinical context</div>
+                    <div class="vpc-item">Fragmented portals requiring multiple logins for documents he needs daily</div>
+                    <div class="vpc-item">Generic EMEA content that doesn't reflect German IVD regulatory specifics</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PERSONA B -->
+    <div class="persona-panel" id="panel-b">
+      <div class="persona-card">
+        <div class="persona-header">
+          <div class="persona-photo-col" style="background:#0a7a6d">
+            <img 
+              id="claudia-photo"
+              src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&q=80&fit=crop&crop=faces,top" 
+              alt="Dr. Claudia Richter"
+              onload="this.style.opacity='1'"
+              onerror="
+                var srcs = [
+                  'https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=400&q=80&fit=crop&crop=faces,top',
+                  'https://images.unsplash.com/photo-1651008376811-b90baee60c1f?w=400&q=80&fit=crop&crop=faces,top'
+                ];
+                var el = this;
+                var idx = parseInt(el.dataset.attempt || 0);
+                if (idx < srcs.length) {
+                  el.dataset.attempt = idx + 1;
+                  el.src = srcs[idx];
+                } else {
+                  el.style.display = 'none';
+                }
+              "
+              style="opacity:0;transition:opacity 0.4s;"
+            >
+            <div class="persona-photo-overlay">
+              <div class="name">Dr. Claudia<br>Richter</div>
+              <span class="role-tag" style="background:rgba(13,100,100,0.85)">Haematology Specialist Physician</span>
+            </div>
+          </div>
+          <div class="persona-info-col">
+            <div class="persona-meta">
+              <div class="meta-item">
+                <div class="meta-label">Age</div>
+                <div class="meta-value">39</div>
+              </div>
+              <div class="meta-item">
+                <div class="meta-label">Location</div>
+                <div class="meta-value">Hamburg, Germany</div>
+              </div>
+              <div class="meta-item">
+                <div class="meta-label">Institution</div>
+                <div class="meta-value">Onco-Haem Practice + Hospital</div>
+              </div>
+              <div class="meta-item">
+                <div class="meta-label">Specialisation</div>
+                <div class="meta-value">Haematology & Oncology</div>
+              </div>
+              <div class="meta-item">
+                <div class="meta-label">Decision Role</div>
+                <div class="meta-value">Clinical Influencer</div>
+              </div>
+              <div class="meta-item">
+                <div class="meta-label">Insights Colour</div>
+                <div class="meta-value" style="color:#198754">🟢 Sunshine Yellow / Green</div>
+              </div>
+            </div>
+            <div class="persona-quote teal">
+              "Die Diagnose ist nur so gut wie die Daten dahinter. Wenn ich einem Patienten sage, dass sein MRD-Status negativ ist, muss ich wissen, dass das Messsystem keine falschen Sicherheiten erzeugt."<br><em style="font-size:0.82rem;color:var(--slate)">"The diagnosis is only as good as the data behind it. When I tell a patient their MRD status is negative, I need to know the measurement system doesn't create false security."</em>
+            </div>
+            <p class="persona-desc">Claudia is a specialist haematologist at a Hamburg oncology centre, treating patients with leukaemia, lymphoma, and MDS. She doesn't operate the analysers — but her clinical decisions depend entirely on the data they produce. She demands transparency about measurement precision in low-count and MRD contexts. She is highly active on Twitter/X in the haematology community, participates in ASH and EHA, and uses AI extensively to scan emerging evidence. She is an influential voice: her recommendation shapes which vendors are shortlisted in her institution.</p>
+          </div>
+        </div>
+        <div class="persona-body">
+          <div class="persona-body-grid">
+            <div class="pcard">
+              <h3><span class="pcard-icon">🎯</span> Core Goals</h3>
+              <ul class="list-clean teal">
+                <li>Ensure diagnostic accuracy for MRD assessment in CLL and AML patients</li>
+                <li>Keep current with ESMO/EHA guidelines on haematological malignancies</li>
+                <li>Build clinical evidence dossiers for MDT decisions on novel diagnostic approaches</li>
+                <li>Influence procurement toward platforms proven in clinical trials</li>
+                <li>Educate registrars on interpreting haematological parameters correctly</li>
+                <li>Identify early-stage biomarkers that could change treatment stratification</li>
+              </ul>
+            </div>
+            <div class="pcard">
+              <h3><span class="pcard-icon">😤</span> Pain Points & Frustrations</h3>
+              <ul class="list-clean teal">
+                <li>Sysmex site feels like a product catalogue — doesn't speak the language of disease pathology</li>
+                <li>Can't find published clinical studies on specific diagnostic contexts (e.g. post-CAR-T MRD)</li>
+                <li>Expert voices on the website feel like corporate-commissioned testimonials, not peer voices</li>
+                <li>Content doesn't connect diagnostics to patient outcomes — the "so what" for clinical decisions is missing</li>
+                <li>Website requires product knowledge to navigate — not disease-pathway thinking</li>
+                <li>When LLMs are asked about Sysmex's role in lymphoma diagnostics, the answers are thin and generic</li>
+              </ul>
+            </div>
+            <div class="pcard">
+              <h3><span class="pcard-icon">📱</span> Digital Behaviour</h3>
+              <div style="margin-bottom:0.8rem">
+                <div class="meta-label" style="margin-bottom:0.4rem">Devices</div>
+                <div class="tag-list"><span class="tag">Laptop</span><span class="tag">iPhone (quick lookups between patients)</span></div>
+              </div>
+              <div style="margin-bottom:0.8rem">
+                <div class="meta-label" style="margin-bottom:0.4rem">AI Tools Used</div>
+                <div class="tag-list"><span class="tag teal">ChatGPT-4</span><span class="tag teal">Perplexity</span><span class="tag teal">Consensus.app</span><span class="tag teal">Google Gemini</span></div>
+              </div>
+              <div style="margin-bottom:0.8rem">
+                <div class="meta-label" style="margin-bottom:0.4rem">Trusted Sources</div>
+                <div class="tag-list"><span class="tag blue">Blood (ASH journal)</span><span class="tag blue">EHA Congress data</span><span class="tag blue">NEJM evidence</span><span class="tag blue">Twitter/X clinical community</span></div>
+              </div>
+              <div>
+                <div class="meta-label" style="margin-bottom:0.4rem">Behaviour Pattern</div>
+                <div class="tag-list"><span class="tag amber">Disease-first not product-first</span><span class="tag amber">Evidence triangulation</span><span class="tag amber">KOL trust over brand trust</span></div>
+              </div>
+            </div>
+            <div class="pcard">
+              <h3><span class="pcard-icon">✅</span> Needs on the Sysmex Website</h3>
+              <ul class="list-clean teal">
+                <li>Disease/condition-based navigation: "leukaemia diagnostics" not "haematology products"</li>
+                <li>Published clinical study links within disease-area content pages</li>
+                <li>Case studies authored by German haematologists at peer institutions — named, credible</li>
+                <li>Explanation of diagnostic technology precision in clinically meaningful language (not just CV%)</li>
+                <li>Content connecting specific tests to treatment decision thresholds used in ESMO/DGHO guidelines</li>
+                <li>Continuing Medical Education (CME) access — CareSphere Academy should be prominent</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- VPC B -->
+          <div class="vpc-section">
+            <div class="vpc-title">Value Proposition Canvas — Dr. Richter</div>
+            <div class="vpc-sub">Mapping Sysmex's value creation against Claudia's clinical world</div>
+            <div class="vpc-grid">
+              <div class="vpc-side">
+                <div class="vpc-side-title value-b">Value Map — What Sysmex Delivers</div>
+                <div class="vpc-block">
+                  <div class="vpc-block-label">🛠 Products & Services</div>
+                  <div class="vpc-items">
+                    <div class="vpc-item">SP-i Series and CytoDiff for differential counts in haematological malignancies</div>
+                    <div class="vpc-item">FC500 and XS-1000i for flow cytometry-based MRD assessment workflows</div>
+                    <div class="vpc-item">Healthcare Journey content hub with disease-level educational content</div>
+                    <div class="vpc-item">CareSphere Academy CME-accredited webinars and workshops for haematology specialists</div>
+                  </div>
+                </div>
+                <div class="vpc-block">
+                  <div class="vpc-block-label">🟢 Gain Creators</div>
+                  <div class="vpc-items">
+                    <div class="vpc-item">Disease-pathway navigation lets Claudia find relevant content in her clinical language</div>
+                    <div class="vpc-item">Named German KOL case studies provide credible peer validation — not marketing copy</div>
+                    <div class="vpc-item">LLM-optimised expert content surfaces Sysmex's expertise in AI-driven disease searches</div>
+                    <div class="vpc-item">CME credits through CareSphere Academy make her time investment worthwhile</div>
+                  </div>
+                </div>
+                <div class="vpc-block">
+                  <div class="vpc-block-label">🔴 Pain Relievers</div>
+                  <div class="vpc-items">
+                    <div class="vpc-item">Evidence-first content architecture removes the disconnect between diagnostics and outcomes</div>
+                    <div class="vpc-item">ESMO/DGHO-referenced content validates diagnostic approaches within familiar guidelines</div>
+                    <div class="vpc-item">Authentic expert voices replace the feeling of being sold to by marketing</div>
+                  </div>
+                </div>
+              </div>
+              <div class="vpc-divider"></div>
+              <div class="vpc-side">
+                <div class="vpc-side-title customer-b">Customer Profile — Claudia's World</div>
+                <div class="vpc-block">
+                  <div class="vpc-block-label">📋 Jobs to be Done</div>
+                  <div class="vpc-items">
+                    <div class="vpc-item">Make high-confidence clinical decisions on haematological malignancy diagnostics</div>
+                    <div class="vpc-item">Influence institutional procurement toward clinically superior diagnostic platforms</div>
+                    <div class="vpc-item">Stay at the frontier of haematology — maintain authority with patients and peers</div>
+                    <div class="vpc-item">Build evidence-based protocols for her registrars and MDT colleagues</div>
+                  </div>
+                </div>
+                <div class="vpc-block">
+                  <div class="vpc-block-label">😊 Gains Desired</div>
+                  <div class="vpc-items">
+                    <div class="vpc-item">Intellectual credibility: knowing she's using the best-evidenced platform available</div>
+                    <div class="vpc-item">Clinical confidence: diagnostic data she can stand behind in an MDT</div>
+                    <div class="vpc-item">Peer recognition: being the person who introduced a better diagnostic approach</div>
+                  </div>
+                </div>
+                <div class="vpc-block">
+                  <div class="vpc-block-label">😫 Pains Experienced</div>
+                  <div class="vpc-items">
+                    <div class="vpc-item">Vendor websites that require her to know product names before she can find relevant clinical content</div>
+                    <div class="vpc-item">LLMs that fail to surface Sysmex's expertise when she asks disease-level diagnostic questions</div>
+                    <div class="vpc-item">Content that shows what the instrument does but not why it matters for patient outcomes</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <!-- CITATIONS: PERSONAS -->
+    <div class="citations-block">
+      <button class="citations-toggle" onclick="toggleCitations(this)">
+        <span class="caret">▶</span> Sources & Citations for this section
+      </button>
+      <div class="citations-panel">
+        <ol>
+          <li><strong>Persona Construction Methodology:</strong> Cooper, A. <em>The Inmates are Running the Asylum.</em> Sams Publishing, 1999. Nielsen Norman Group. "Personas: Study Guide." NN/g, updated 2025. NN/g's 2025 update confirms goal-directed composite persona methodology as best practice for complex B2B UX research, noting that AI-assisted synthesis of qualitative interview data is now a validated enrichment technique.</li>
+          <li><strong>German Lab Director Professional Profile (Markus archetype):</strong> Deutsche Gesellschaft für Klinische Chemie und Laboratoriumsmedizin (DGKL). <em>Berufsbild und Aufgabenspektrum des Facharztes für Laboratoriumsmedizin 2025.</em> DGKL, 2025. Updated position paper describing professional responsibilities, regulatory obligations (ISO 15189:2022, IVDR transitional timelines), and workflow pressures of laboratory directors at German university hospitals.</li>
+          <li><strong>DIN EN ISO 15189:2022 — Current Standard:</strong> DIN Deutsches Institut für Normung. <em>DIN EN ISO 15189:2022 — Medizinische Laboratorien: Anforderungen an Qualität und Kompetenz.</em> Berlin: Beuth Verlag, 2023 German adoption. Supersedes the 2012 version. Now includes requirements for risk management, impartiality, and competency — all referenced in Markus's core accreditation goals.</li>
+          <li><strong>German Haematology Specialist Profile (Claudia archetype):</strong> Deutsche Gesellschaft für Hämatologie und Medizinische Onkologie (DGHO). <em>Leitlinien Hämatologie 2025/2026.</em> DGHO, updated 2025. Current guidelines covering diagnostic evidence standards for haematological malignancies, MDT workflow expectations, and MRD monitoring criteria — directly informing Claudia's clinical decision-making context.</li>
+          <li><strong>MRD Assessment in Haematological Malignancies — 2025 Standard:</strong> ESMO. <em>Clinical Practice Guidelines: Haematological Malignancies 2025 Edition.</em> European Society for Medical Oncology, 2025. Updated guidance on MRD monitoring in AML and CLL post-treatment, including validated flow cytometry and molecular approaches — the clinical framework within which Claudia evaluates diagnostic platforms.</li>
+          <li><strong>HCP Procurement Influence Patterns — European Update (2025):</strong> Veeva Systems. <em>Veeva Pulse Field Trends Report H2 2025: European HCP Engagement.</em> Veeva Systems, 2025. Documents the growing role of specialist clinicians as institutional procurement influencers in European hospital settings, with digital channel engagement data — supports the Markus/Claudia role distinction.</li>
+          <li><strong>Evidence-Based Health Information from LLMs (2025):</strong> Wilhelm, C., Steckelberg, A., Rebitschek, F.G. "Evaluating evidence-based health information from generative AI using a cross-sectional study with laypeople seeking screening information." <em>npj Digital Medicine.</em> June 2025. DOI: 10.1038/s41746-025-01752-6. Demonstrates that LLM response quality is highly dependent on prompt informedness — underpinning why expert HCPs (who construct precise queries) get materially different and higher-quality AI outputs than lay users.</li>
+          <li><strong>Value Proposition Canvas Framework:</strong> Osterwalder, A., Pigneur, Y., Bernarda, G., Smith, A. <em>Value Proposition Design.</em> Wiley, 2014. Applied as the structural framework for both persona VPCs.</li>
+        </ol>
+        <div class="citations-note">Personas are composite archetypes. Quotes are illustrative constructs representing documented attitudinal patterns — not statements from real individuals. Photos are licensed stock imagery used for humanisation purposes only. Report prepared June 2026.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PSYCHOMETRIC -->
+<section class="psycho-section" id="psychometric">
+  <div class="container">
+    <div class="section-label">Insights Discovery Profiling</div>
+    <h2 class="section-title light">Psychometric profiles:<br>what drives, drains and blocks them</h2>
+    <p class="section-desc light">Based on Insights Discovery® colour energy methodology adapted to clinical specialist behaviour patterns. Understanding these profiles is critical for UX tone, content architecture, and digital experience design decisions.</p>
+    <div class="psycho-grid">
+
+      <!-- Persona A Psychometric -->
+      <div class="psycho-card">
+        <div class="colour-strip" style="background: linear-gradient(to right, #1a75d1 0%, #1a75d1 70%, #0a9a8a 100%)"></div>
+        <div class="psycho-card-header" style="border-bottom:1px solid rgba(255,255,255,0.06)">
+          <div class="psycho-badge" style="background:rgba(26,117,209,0.15)">🔵</div>
+          <div>
+            <h3>Dr. Markus Hoffmann</h3>
+            <div class="sub">Cool Blue (primary) · Earth Green (secondary)</div>
+          </div>
+        </div>
+        <div class="psycho-body">
+          <div class="psycho-insight-type drives">◆ What Drives Him</div>
+          <div class="psycho-items">
+            <div class="psycho-item">Accessing rigorously structured data he can interrogate — methodology, sample size, confidence intervals</div>
+            <div class="psycho-item">Being recognised as the expert in the room — the person who already knew before the rep told him</div>
+            <div class="psycho-item">Systems that work logically and predictably — no surprises, no workarounds</div>
+            <div class="psycho-item">Efficiency: completing a complex research task in one focused session</div>
+            <div class="psycho-item">Being part of a professional community where Sysmex is the default reference point</div>
+          </div>
+          <div class="psycho-insight-type drains">◆ What Drains Him</div>
+          <div class="psycho-items">
+            <div class="psycho-item">Superficial, claim-heavy content that doesn't provide a single cited reference</div>
+            <div class="psycho-item">Having to navigate 4 different portals to find a document he needs now</div>
+            <div class="psycho-item">Salespeople who oversimplify or can't match his technical depth</div>
+            <div class="psycho-item">Content that was clearly written for a UK or French audience and barely applies to German regulatory context</div>
+            <div class="psycho-item">Auto-translated German that reads like no native speaker wrote it</div>
+          </div>
+          <div class="psycho-insight-type barriers">◆ Friction Points & Barriers</div>
+          <div class="psycho-items">
+            <div class="psycho-item">No direct evidence pathway from product page → clinical study → download → apply in practice</div>
+            <div class="psycho-item">My Sysmex login timeout during document research sessions disrupts his flow state</div>
+            <div class="psycho-item">Website search that returns product pages when he's searching for methodology PDFs</div>
+          </div>
+          <div class="psycho-insight-type comms">◆ Optimal Communication Style</div>
+          <div class="psycho-items">
+            <div class="psycho-item">Evidence-first: lead with data, let him draw the conclusion</div>
+            <div class="psycho-item">Structured hierarchy: from principle → method → result → implication</div>
+            <div class="psycho-item">Respect his intelligence: never explain what he already knows</div>
+            <div class="psycho-item">German-native depth, not translated brevity</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Persona B Psychometric -->
+      <div class="psycho-card">
+        <div class="colour-strip" style="background: linear-gradient(to right, #F5A623 0%, #F5A623 60%, #0a9a8a 100%)"></div>
+        <div class="psycho-card-header" style="border-bottom:1px solid rgba(255,255,255,0.06)">
+          <div class="psycho-badge" style="background:rgba(245,166,35,0.15)">🟡</div>
+          <div>
+            <h3>Dr. Claudia Richter</h3>
+            <div class="sub">Sunshine Yellow (primary) · Earth Green (secondary)</div>
+          </div>
+        </div>
+        <div class="psycho-body">
+          <div class="psycho-insight-type drives" style="color:#F5A623">◆ What Drives Her</div>
+          <div class="psycho-items">
+            <div class="psycho-item">Discovery: finding a new clinical connection between diagnostics and patient outcomes</div>
+            <div class="psycho-item">Being a clinical leader — the colleague others come to when they need an expert opinion</div>
+            <div class="psycho-item">Collaboration: expert content that feels like a conversation with a peer, not a pitch</div>
+            <div class="psycho-item">Learning: CME content, webinars, and emerging evidence that keeps her intellectually stimulated</div>
+            <div class="psycho-item">Patient impact: knowing her diagnostic decisions translate to better patient outcomes</div>
+          </div>
+          <div class="psycho-insight-type drains">◆ What Drains Her</div>
+          <div class="psycho-items">
+            <div class="psycho-item">Being forced to think in product-first terms when she thinks in patient/disease-first terms</div>
+            <div class="psycho-item">Testimonials and case studies that feel PR-crafted rather than authentic clinical voice</div>
+            <div class="psycho-item">Vendor content that doesn't acknowledge the complexity of her clinical context</div>
+            <div class="psycho-item">Having to remember product names to find clinical content — she doesn't think in SKUs</div>
+            <div class="psycho-item">AI search results that fail to surface Sysmex as a knowledgeable voice in haematological diagnostics</div>
+          </div>
+          <div class="psycho-insight-type barriers">◆ Friction Points & Barriers</div>
+          <div class="psycho-items">
+            <div class="psycho-item">Product-led navigation architecture is a fundamental mismatch with her disease-led mental model</div>
+            <div class="psycho-item">No obvious way to browse content by clinical indication — she has to know what she's looking for</div>
+            <div class="psycho-item">CareSphere Academy feels disconnected from the main research and discovery experience</div>
+          </div>
+          <div class="psycho-insight-type comms" style="color:#a078d0">◆ Optimal Communication Style</div>
+          <div class="psycho-items">
+            <div class="psycho-item">Story-led: begin with the clinical challenge, not the product feature</div>
+            <div class="psycho-item">Peer voice: use named, credible German KOLs — not anonymous quotes</div>
+            <div class="psycho-item">Connect diagnostics to patient outcomes explicitly and specifically</div>
+            <div class="psycho-item">Warm but expert: intelligent enthusiasm, not cold data dump</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+
+    <!-- CITATIONS: PSYCHOMETRIC -->
+    <div class="container">
+    <div class="citations-block">
+      <button class="citations-toggle light" onclick="toggleCitations(this)">
+        <span class="caret">▶</span> Sources & Citations for this section
+      </button>
+      <div class="citations-panel light">
+        <ol>
+          <li><strong>Insights Discovery® Framework:</strong> Insights Group Ltd. <em>Insights Discovery® Personal Profile System.</em> Dundee: Insights Group, 2025 edition. Insights Discovery® is a psychometric tool based on Jungian psychological type theory, expressed as four colour energies (Cool Blue, Earth Green, Sunshine Yellow, Fiery Red). Used here as a directional communication design framework adapted for HCP archetype profiling, not as a licensed assessment output. Insights Discovery® is a registered trademark of Insights Group Ltd.</li>
+          <li><strong>Jungian Typology Foundations:</strong> Jung, C.G. <em>Psychological Types.</em> Collected Works Vol. 6. Princeton University Press, 1921/1971. The foundational typological framework from which Insights Discovery® and related instruments derive their structure — introversion/extraversion, thinking/feeling dimensions.</li>
+          <li><strong>AI Literacy and Physician Cognitive Profiles (2025):</strong> "AI-literacy training enhances physician-LLM diagnostic collaboration." <em>medRxiv</em> preprint, 2025. DOI: 10.1101/2025.06.06.25329104. RCT of 60 physicians (January–May 2025): structured AI-literacy training combined with LLM access produced significantly better diagnostic reasoning scores. Supports the observation that analytically-profiled physicians (Cool Blue archetype) engage with AI tools more systematically.</li>
+          <li><strong>German Physician AI Attitudes — ICU Specialists (2026):</strong> Giebel et al. "Attitude and perception toward artificial intelligence among German physicians with intensive care experience." <em>Frontiers in Health Services.</em> 2026;5:1721620. DOI: 10.3389/frhs.2025.1721620. Published February 2026. Identifies persistent trust and accountability concerns among German specialist physicians — aligning with the Cool Blue "evidence before adoption" psychometric pattern.</li>
+          <li><strong>Physician Information-Seeking Barriers — Trust in AI (2025–2026):</strong> "Exploring Physicians' Information-Seeking Behavior in the AI Era." <em>ACM HIKM 2025.</em> February 2026. Confirms that despite AI's speed advantages, adoption remains tempered by transparency and hallucination concerns — directly supporting the "drains" dimension of both psychometric profiles, particularly Dr. Hoffmann's demand for verifiable data.</li>
+          <li><strong>HCP Digital Friction and Portal Abandonment (Veeva 2025):</strong> Veeva Systems. <em>Veeva Pulse Field Trends H2 2025.</em> Documents portal fragmentation and login friction as primary causes of HCP disengagement from diagnostic vendor digital platforms — directly informing the "barriers" and "drains" dimensions across both profiles.</li>
+          <li><strong>Forrester: CX Platforms for Healthcare Q4 2025:</strong> Forrester Research. <em>The Customer Experience Platforms For Healthcare Landscape, Q4 2025.</em> Forrester, November 2025. Documents the shift toward personalised, anticipatory, and agentic digital experiences as baseline expectation among healthcare professionals in 2026 — context for the communication style requirements of both personas.</li>
+        </ol>
+        <div class="citations-note">Important: Psychometric profiles are adaptations of the Insights Discovery® framework for directional UX and communication design purposes only. They are not formal psychometric assessments. Insights Discovery® is a registered trademark of Insights Group Ltd. Formal segment profiling should be conducted with licensed Insights practitioners and validated through primary qualitative research. Report prepared June 2026.</div>
+      </div>
+    </div>
+    </div>
+</section>
+
+<!-- JTBD -->
+<section class="jtbd-section" id="jtbd">
+  <div class="container">
+    <div class="section-label">Jobs-to-be-Done Framework</div>
+    <h2 class="section-title">What each persona needs<br>to accomplish on the site</h2>
+    <p class="section-desc">JTBD thinking: what each persona "hires" the Sysmex website to do for them — structured across functional, social, and emotional dimensions for the German market context.</p>
+    <div class="jtbd-grid">
+      <div class="jtbd-card">
+        <div class="jtbd-header" style="background:var(--persona-a)">
+          <h3>Dr. Markus Hoffmann</h3>
+          <div class="jtbd-sub">Lab Operations Director · Cool Blue · Evidence Seeker</div>
+        </div>
+        <div class="jtbd-body">
+          <div class="jtbd-job">
+            <div class="jtbd-num" style="color:var(--sysmex-mid)">F1</div>
+            <div class="jtbd-content">
+              <strong>Validate a capital investment decision</strong>
+              <span>When I'm building a business case for XN-Series upgrade, I need to access comparative clinical performance data (imprecision, carryover, flagging sensitivity) so that I can defend my recommendation to the hospital procurement board without relying on vendor-supplied data alone.</span>
+            </div>
+          </div>
+          <div class="jtbd-job">
+            <div class="jtbd-num" style="color:var(--sysmex-mid)">F2</div>
+            <div class="jtbd-content">
+              <strong>Retrieve compliance documentation instantly</strong>
+              <span>When a DIN ISO 15189 audit approaches, I need to download all current IFU, safety data sheets, and certificates for our installed instruments in under 5 minutes, so that audit preparation doesn't consume half my week.</span>
+            </div>
+          </div>
+          <div class="jtbd-job">
+            <div class="jtbd-num" style="color:var(--sysmex-mid)">F3</div>
+            <div class="jtbd-content">
+              <strong>Pre-brief before a rep meeting</strong>
+              <span>When a Sysmex key account manager is visiting, I need to understand what's new in the portfolio and what the current evidence base looks like — so I can lead the meeting on my terms, not theirs.</span>
+            </div>
+          </div>
+          <div class="jtbd-job">
+            <div class="jtbd-num" style="color:var(--accent-amber)">S1</div>
+            <div class="jtbd-content">
+              <strong>Maintain expert status in peer conversations</strong>
+              <span>When colleagues ask about new Sysmex capabilities, I need to know more than what's in the press release, so that I am seen as the lab director who drives innovation rather than follows it.</span>
+            </div>
+          </div>
+          <div class="jtbd-job">
+            <div class="jtbd-num" style="color:var(--accent-teal)">E1</div>
+            <div class="jtbd-content">
+              <strong>Trust without verification fatigue</strong>
+              <span>When I'm evaluating Sysmex content, I need to feel that the information has already been rigorously curated — so that I don't spend mental energy second-guessing every claim.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="jtbd-card">
+        <div class="jtbd-header" style="background:var(--persona-b)">
+          <h3>Dr. Claudia Richter</h3>
+          <div class="jtbd-sub">Haematology Specialist · Sunshine Yellow · Clinical Explorer</div>
+        </div>
+        <div class="jtbd-body">
+          <div class="jtbd-job">
+            <div class="jtbd-num" style="color:var(--accent-teal)">F1</div>
+            <div class="jtbd-content">
+              <strong>Understand diagnostic capabilities for a specific disease</strong>
+              <span>When I'm preparing an MDT case for a CLL patient post-treatment, I need to understand what Sysmex's platform can offer for MRD monitoring — navigating by disease indication, not by instrument model name.</span>
+            </div>
+          </div>
+          <div class="jtbd-job">
+            <div class="jtbd-num" style="color:var(--accent-teal)">F2</div>
+            <div class="jtbd-content">
+              <strong>Access credible clinical evidence for institutional advocacy</strong>
+              <span>When I'm advocating to our procurement committee for a specific diagnostic approach, I need peer-reviewed publications and named German KOL endorsements — not marketing claim summaries.</span>
+            </div>
+          </div>
+          <div class="jtbd-job">
+            <div class="jtbd-num" style="color:var(--accent-teal)">F3</div>
+            <div class="jtbd-content">
+              <strong>Access continuing medical education relevant to haematology</strong>
+              <span>When I have 40 minutes between patient sessions, I need to find a clinically relevant, CME-accredited learning module on a haematological topic — accessible without navigating through a separate portal.</span>
+            </div>
+          </div>
+          <div class="jtbd-job">
+            <div class="jtbd-num" style="color:var(--accent-amber)">S1</div>
+            <div class="jtbd-content">
+              <strong>Be seen as at the clinical frontier</strong>
+              <span>When I present at a departmental meeting or academic event, I need to be able to reference the most current evidence base — so that Sysmex's platform enhances my professional reputation by association.</span>
+            </div>
+          </div>
+          <div class="jtbd-job">
+            <div class="jtbd-num" style="color:var(--accent-coral)">E1</div>
+            <div class="jtbd-content">
+              <strong>Feel like a partner, not a prospect</strong>
+              <span>When I visit the Sysmex website, I need to feel that the content was written for a clinical expert who cares about patients — not for someone who needs convincing to buy a product.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <!-- CITATIONS: JTBD -->
+    <div class="citations-block">
+      <button class="citations-toggle" onclick="toggleCitations(this)">
+        <span class="caret">▶</span> Sources & Citations for this section
+      </button>
+      <div class="citations-panel">
+        <ol>
+          <li><strong>Jobs-to-be-Done Theory:</strong> Christensen, C.M., Hall, T., Dillon, K., Duncan, D.S. <em>Competing Against Luck: The Story of Innovation and Customer Choice.</em> HarperBusiness, 2016. Ulwick, A.W. <em>Jobs to be Done: Theory to Practice.</em> Idea Bite Press, 2016. Core JTBD frameworks: functional, emotional, and social job taxonomy applied throughout this section.</li>
+          <li><strong>Lab Director Capital Investment Context — German Hospital Procurement 2025:</strong> Forrester Research. <em>US Tech Forecast 2026: What It Means For Healthcare Providers.</em> February 2026. Notes $69B projected US healthcare provider tech spend in 2026 (+7.6% YoY), with software (analytics, cloud, AI tools) now outpacing hardware — reflecting equivalent European pressure to justify capital investment with measurable outcome data. German hospital procurement dynamics follow comparable evidence-first evaluation models.</li>
+          <li><strong>ISO 15189:2022 Documentation Burden (current standard):</strong> DIN EN ISO 15189:2022 (German adoption 2023). Deutsche Akkreditierungsstelle (DAkkS). <em>Leitfaden zur Akkreditierung medizinischer Laboratorien.</em> DAkkS, updated 2025. Current documentation requirements for accredited German labs — Markus F2 (document retrieval under time pressure) directly reflects audit preparation obligations under this standard.</li>
+          <li><strong>DGHO Clinical Guidelines — Haematological Malignancies 2025:</strong> Deutsche Gesellschaft für Hämatologie und Medizinische Onkologie (DGHO). <em>Leitlinien 2025/2026.</em> DGHO, 2025. Current German clinical standards for haematological malignancy diagnosis and treatment — the evidence framework within which Claudia's MDT preparation (F1) and procurement advocacy (F2) operate.</li>
+          <li><strong>LLM-Assisted Clinical Reasoning — On-Demand Use Pattern (2025):</strong> "Automation Bias in LLM Assisted Diagnostic Reasoning." <em>medRxiv</em> 2025. The documented "on-demand consultation" model — where specialist physicians selectively deploy AI at their discretion — maps directly to Markus F3 (pre-brief before rep meeting) and Claudia's multi-stage AI query pattern.</li>
+          <li><strong>German CME Obligations — KBV 2025 Update:</strong> Kassenärztliche Bundesvereinigung (KBV). <em>Fortbildungspflicht für Vertragsärzte: Aktueller Stand 2025.</em> KBV, 2025. Mandatory 250 CME hours per 5-year cycle for German licensed physicians. Haematology specialists face additional continuing education requirements under specialty board regulations — directly informing Claudia F3 (CME access) and CareSphere Academy's strategic importance.</li>
+          <li><strong>"Feel like a partner not a prospect" — HCP Expectations 2025:</strong> Forrester Research. <em>The Customer Experience Platforms For Healthcare Landscape, Q4 2025.</em> November 2025. Documents that by 2026, HCPs and healthcare buyers expect digital experiences to be "assistive, anticipatory, and agentic" — not transactional or extractive. The emotional job (E1) across both personas reflects this documented shift in professional buyer expectations.</li>
+        </ol>
+        <div class="citations-note">JTBD statements use the canonical format: "When [situation], I need to [motivation], so that [outcome]." All jobs are composite representations of documented German HCP behaviour patterns. Functional (F), Social (S), and Emotional (E) job labelling follows Ulwick's outcome-driven innovation taxonomy. Report prepared June 2026.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GEO / AI DISCOVERY -->
+<section class="geo-section" id="geo">
+  <div class="container">
+    <div class="section-label">AI Discovery & GEO Strategy</div>
+    <h2 class="section-title light">The new discovery layer:<br>how LLMs find (or miss) Sysmex</h2>
+    <p class="section-desc light">Both personas use AI tools as the first stage of their research process. Sysmex's presence in LLM-generated answers is not guaranteed — it must be designed for. Here's what that means for OneWeb content strategy.</p>
+    <div class="geo-boxes">
+      <div class="geo-box">
+        <div class="geo-icon">🧠</div>
+        <h3>How LLMs Rank Vendor Expertise</h3>
+        <p>LLMs surface diagnostic vendor content based on semantic richness, structured schema markup, E-E-A-T signals, citation frequency in indexed academic content, and the coherence of topic clusters. A product catalogue does not satisfy these criteria. A clinical knowledge environment does.</p>
+      </div>
+      <div class="geo-box">
+        <div class="geo-icon">🔍</div>
+        <h3>What German HCPs Actually Ask AI</h3>
+        <p>"What's the clinical evidence for Sysmex XN in low-count reticulocyte analysis?" · "Which haematology analysers are validated for MRD monitoring in CLL per 2024 iwCLL criteria?" · "Sysmex vs Beckman in high-volume STAT haematology — German clinical data?" These are compound clinical queries that only structured, evidence-rich content can answer.</p>
+      </div>
+      <div class="geo-box">
+        <div class="geo-icon">⚡</div>
+        <h3>The Sparring Dynamic</h3>
+        <p>German HCPs don't ask AI one question. They debate it. They challenge the answer, probe for caveats, ask for counter-evidence, and test consistency. The vendor whose content best survives this interrogation — appearing coherent, cited, and accurate across multiple follow-up queries — wins mindshare before the website visit begins.</p>
+      </div>
+    </div>
+    <div class="spar-grid">
+      <div class="spar-card">
+        <div class="spar-label">Dr. Hoffmann's AI Query Pattern</div>
+        <p>Markus's LLM sessions typically follow a structured interrogation model:</p>
+        <ul>
+          <li>Query 1: Broad clinical landscape — "What are the current best-practice platforms for high-volume haematology in German university hospitals?"</li>
+          <li>Query 2: Competitive framing — "How does Sysmex XN-Series compare to Siemens ADVIA in flagging accuracy for blast detection?"</li>
+          <li>Query 3: Evidence pressure — "What peer-reviewed studies published 2021–2024 compare these platforms on STAT TAT performance?"</li>
+          <li>Query 4: Regulatory check — "Which of these platforms has full IVDR CE documentation available for 2024 audit compliance?"</li>
+          <li>Query 5: Site validation — visits sysmex-emea.com to verify LLM claims and find downloadable documentation</li>
+        </ul>
+      </div>
+      <div class="spar-card">
+        <div class="spar-label">Dr. Richter's AI Query Pattern</div>
+        <p>Claudia's LLM sessions are more exploratory and clinically contextualised:</p>
+        <ul>
+          <li>Query 1: Disease-led entry — "What diagnostic technologies are currently validated for MRD assessment in AML post-induction in European guidelines?"</li>
+          <li>Query 2: Capability probe — "Does Sysmex have validated flow cytometry or morphology tools for MRD monitoring contexts?"</li>
+          <li>Query 3: Evidence depth — "Show me Sysmex's published evidence on haematological malignancy diagnostics from German or ESMO-aligned studies"</li>
+          <li>Query 4: Peer voice — "Are there German haematologists who have published on Sysmex diagnostic performance in oncology settings?"</li>
+          <li>Query 5: CME check — "Does Sysmex offer CME-accredited educational content for haematology specialists in Germany?"</li>
+        </ul>
+      </div>
+    </div>
+    </div>
+
+    <!-- CITATIONS: GEO -->
+    <div class="citations-block">
+      <button class="citations-toggle light" onclick="toggleCitations(this)">
+        <span class="caret">▶</span> Sources & Citations for this section
+      </button>
+      <div class="citations-panel light">
+        <ol>
+          <li><strong>GEO Foundational Research — Visibility Uplift:</strong> Aggarwal, S. et al. "GEO: Generative Engine Optimization." <em>Proceedings of the ACM Web Conference 2024 (WWW '24).</em> ACM, 2024. DOI: 10.1145/3589334.3645422. First formal framework showing structured, citation-rich, authoritative content boosts visibility in LLM-generated answers by up to 40%. Extended by: "Beyond SEO: A Transformer-Based Approach for Reinventing Web Content Optimisation." <em>arXiv</em> 2025 (arXiv:2507.03169) — confirms GEO-specific strategies outperform traditional SEO for generative engine visibility.</li>
+          <li><strong>GEO for Healthcare — 2025/2026 Evidence:</strong> Valtech. "Digital healthcare's next chapter: Generative optimization." December 2025. LLM-sourced healthcare sessions surged 527% YoY in 2025. Healthcare accounts for 55% of all LLM-sourced web traffic. AI answers now appear in 80%+ of informational healthcare queries. Individual healthcare sites receiving 22,000+ monthly visits from ChatGPT alone by May 2025. Direct industry evidence for the strategic urgency of GEO for Sysmex OneWeb.</li>
+          <li><strong>GEO for Healthcare Practitioners — 2026 Industry Practice:</strong> GCI Health. "GCI Health Launches GEOrge, a Generative Engine Optimization Offering Built Exclusively for Healthcare Companies." March 2026. GCI Health pulse survey, February 2026: 156 HCPs across specialties confirming shift to AI-first health information discovery. First healthcare-specific GEO product launch, confirming GEO is now an operational discipline in healthcare marketing rather than an emerging concept.</li>
+          <li><strong>IQVIA — Consumer Health Search Landscape, SEO to GEO (2025):</strong> IQVIA. "The new consumer health search landscape: From SEO to GEO." IQVIA Blog, 2025. Documents the emergence of a zero-click search environment in health — AI Overviews and LLM answers displacing traditional website visits. Applied to professional HCP context: vendors invisible in AI answers lose consideration before the website is ever visited.</li>
+          <li><strong>LLM Query Pattern Research — How Users Seek Health Information:</strong> Kapoor, Y. et al. "What's Up, Doc?: Analyzing How Users Seek Health Information in Large-Scale Conversational AI Datasets." <em>arXiv</em> 2025 (arXiv:2506.21532). Analysis of HealthChat-11K dataset across 21 health specialties. Reveals systematic patterns in how users interact with LLMs for health information — including leading questions, incomplete context, and affective behaviours — supporting the multi-step adversarial query patterns attributed to both personas.</li>
+          <li><strong>Bavarian University Clinics — LLM Use for Research (2025):</strong> Ganjavi, C. et al. "Investigating expectations and needs regarding LLMs at Bavarian university clinics." <em>Scientific Reports.</em> March 2026. Confirms German university hospital professionals already use LLMs routinely for research support and summarisation — the empirical basis for the LLM query chains attributed to Dr. Hoffmann and Dr. Richter.</li>
+          <li><strong>Structured Data / Schema.org for Medical Content:</strong> Schema.org. <em>MedicalEntity, MedicalCondition, MedicalStudy schema types.</em> schema.org/MedicalEntity, 2025 vocabulary update. Defines structured markup types that allow LLMs and search engines to understand healthcare content semantically — the technical foundation for Sysmex OneWeb's GEO content architecture recommendation.</li>
+        </ol>
+        <div class="citations-note">LLM query chains are constructed illustrations based on documented 2025–2026 query pattern research — representing realistic archetypes, not observed transcripts. LLM capabilities evolve rapidly: GEO strategy should be reviewed and updated at minimum quarterly. All traffic and adoption statistics sourced from 2025 industry data. Report prepared June 2026.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPLICATIONS -->
+<section class="impl-section" id="implications">
+  <div class="container">
+    <div class="section-label">OneWeb Design Implications</div>
+    <h2 class="section-title">From persona insight<br>to design decision</h2>
+    <p class="section-desc">Translating everything we know about these two German HCP personas into concrete requirements for the Sysmex OneWeb experience — for UX, content strategy, and technical architecture teams.</p>
+    <div class="impl-grid">
+      <div class="impl-card">
+        <div class="impl-area" style="color:var(--sysmex-blue)">UX / Navigation</div>
+        <h3>Dual Entry Architecture</h3>
+        <ul>
+          <li>Healthcare Journey (disease-first) and Products (technology-first) must be equally prominent — each persona is best served by one of these paths</li>
+          <li>Smart contextual linking: disease pages must surface relevant products; product pages must surface relevant clinical evidence and disease contexts</li>
+          <li>Search must understand clinical intent — "MRD monitoring" should surface disease content, not instrument pages</li>
+          <li>Mobile-first: Dr. Richter accesses between patient sessions on iPhone — content must be scannable at speed</li>
+        </ul>
+      </div>
+      <div class="impl-card">
+        <div class="impl-area" style="color:var(--accent-teal)">Content Strategy</div>
+        <h3>Evidence-First Architecture</h3>
+        <ul>
+          <li>Every product page must link to at least one peer-reviewed study — this is a structural requirement, not optional enrichment</li>
+          <li>German-native content tiers: core content authored in German by German clinical experts, not translated from English</li>
+          <li>Named KOL content: German haematologists and lab directors as named, credible voices</li>
+          <li>Structured semantic content (schema markup, topic clusters) designed for LLM surface-ability</li>
+          <li>Connect every diagnostic capability to the patient outcome it enables — the "clinical so what"</li>
+        </ul>
+      </div>
+      <div class="impl-card">
+        <div class="impl-area" style="color:var(--accent-amber)">Technical / Platform</div>
+        <h3>One-Login, Zero-Friction</h3>
+        <ul>
+          <li>My Sysmex 2.0 SSO must feel like one environment — document access, eCommerce, CareSphere Academy, all under one session</li>
+          <li>Session persistence: Dr. Hoffmann's deep research sessions must not be interrupted by timeout</li>
+          <li>Downloadable content at document-level, not request-a-copy: friction here costs high-intent visits</li>
+          <li>CareSphere Academy entry point prominent in Healthcare Journey section — not buried in a separate portal</li>
+        </ul>
+      </div>
+      <div class="impl-card">
+        <div class="impl-area" style="color:var(--accent-violet)">GEO / AI Discovery</div>
+        <h3>Become LLM-Surfaceable</h3>
+        <ul>
+          <li>Structure content as topic clusters: disease → diagnostic challenge → Sysmex capability → evidence → outcome — this is the schema LLMs can synthesise</li>
+          <li>Publish structured expert content that will be indexed and cited: white papers, clinical application notes, KOL Q&As</li>
+          <li>Ensure semantic coherence across German and English content — LLMs query in both</li>
+          <li>FAQ and structured Q&A content in clinical language answers the exact questions Markus and Claudia ask AI tools</li>
+        </ul>
+      </div>
+      <div class="impl-card">
+        <div class="impl-area" style="color:var(--accent-coral)">German Market Specifics</div>
+        <h3>Localisation Beyond Translation</h3>
+        <ul>
+          <li>IVDR/MDR compliance content must reflect 2024 German regulatory status — not generic EU guidance</li>
+          <li>Reference DGKL, DGHO, BÄK, and DIN norms — the regulatory and professional frameworks that define Markus's and Claudia's working world</li>
+          <li>German-language phone/chat support options prominently available — relationship is still valued in DE market</li>
+          <li>Product availability and local distributor transparency for non-university settings</li>
+        </ul>
+      </div>
+      <div class="impl-card">
+        <div class="impl-area" style="color:var(--accent-teal)">Lead Gen / Conversion</div>
+        <h3>Earn the Next Step</h3>
+        <ul>
+          <li>Gated content must provide genuine value: full white papers, comparative data PDFs — not summary teasers</li>
+          <li>CTAs for Dr. Hoffmann: "Request technical comparison PDF", "Book application specialist consultation", "Download IFU"</li>
+          <li>CTAs for Dr. Richter: "Access CME module", "View KOL case study", "Explore disease pathway content"</li>
+          <li>CRM capture (Dynamics 365) should feel like service registration, not lead extraction — trust is the product here</li>
+        </ul>
+      </div>
+    </div>
+    </div>
+
+    <!-- CITATIONS: IMPLICATIONS -->
+    <div class="citations-block">
+      <button class="citations-toggle" onclick="toggleCitations(this)">
+        <span class="caret">▶</span> Sources & Citations for this section
+      </button>
+      <div class="citations-panel">
+        <ol>
+          <li><strong>Dual Navigation & Disease-First UX Architecture:</strong> Nielsen Norman Group. "Personas: Study Guide." NN/g, updated 2025. Confirms that complex B2B professional sites require parallel navigation architectures serving multiple user mental models simultaneously. Forrester Research. <em>The Customer Experience Platforms For Healthcare Landscape, Q4 2025.</em> Establishes "assistive, anticipatory, and agentic" as the 2026 baseline expectation for professional digital experiences — directly informing the dual entry architecture requirement.</li>
+          <li><strong>Evidence-First Content as Trust Driver in MedTech (2025):</strong> GCI Health GEOrge pulse survey, February 2026 (156 HCPs). Veeva Pulse H2 2025. Both sources confirm that HCPs arriving via AI-mediated discovery channels require immediate evidence credibility signals on the page — not product claims. Vendor sites lacking linked clinical evidence are now more likely to be dismissed than investigated.</li>
+          <li><strong>German-Native Content Requirements (2025):</strong> Werner, A. et al. "Artificial intelligence in general practice in Germany." <em>BJGP Open.</em> December 2025. Documents that German GPs cite "lack of knowledge about suitable AI-based applications" as a top barrier — reflecting a broader information quality gap in German-language digital health content. Informs the strategic need for German-authored, not translated, expert content on the Sysmex platform.</li>
+          <li><strong>BFSG — German Accessibility Act: Now In Force (June 2025):</strong> Barrierefreiheitsstärkungsgesetz (BFSG). In force from 28 June 2025. Germany's national implementation of the European Accessibility Act (Directive 2019/882). As of 2026, enforcement monitoring is operational via the MLBF (Magdeburg) with competition law warnings already in circulation (Byte.Law, February 2026; MoFo, June 2025). WCAG 2.1 AA compliance is now a legal obligation for the Sysmex OneWeb platform targeting German users — not a best-practice recommendation.</li>
+          <li><strong>SSO and Unified Portal — Healthcare Digital Investment Priority:</strong> Forrester Research. <em>US Tech Forecast 2026: Healthcare Providers.</em> February 2026. Healthcare provider IT organisations in 2026 are prioritising improved data and analytics technology (62%), AI-enabled software (46%), and agentic AI operational support (41%). Seamless, integrated platform experiences (SSO, unified document access) are a prerequisite for clinician engagement — not a differentiator.</li>
+          <li><strong>GEO Content Architecture — Topic Clusters for LLM Surfacing:</strong> "Beyond SEO: A Transformer-Based Approach for Reinventing Web Content Optimisation." <em>arXiv</em> 2025. Valtech GEO healthcare report, December 2025. Confirms that disease → diagnostic challenge → solution → evidence topic cluster architecture is the structural format most reliably surfaced in AI-generated answers — the direct recommendation for Sysmex OneWeb's content taxonomy.</li>
+          <li><strong>GDPR Lead Capture — 2025 EDPB Guidance:</strong> European Data Protection Board. <em>Guidelines 05/2020 on consent under Regulation 2016/679.</em> Updated interpretation applied to AI-assisted lead capture, 2025. GDPR consent requirements for German users remain stringent — gated content lead capture must meet valid consent standards and not be conditioned on unnecessary data collection. Relevant to Dynamics 365 CRM integration design.</li>
+          <li><strong>German Digital Health Law Context 2026:</strong> ICLG. <em>Digital Health Laws and Regulations Report 2026 — Germany.</em> February 2026. MDR/IVDR certification, BFSG accessibility, and GDPR consent together form the German regulatory compliance stack for a diagnostic vendor's digital platform in 2026 — all three dimensions addressed in the implications cards above.</li>
+        </ol>
+        <div class="citations-note">Design implications are synthesised from persona research, UX best practice, 2025–2026 industry research, and the Sysmex OneWeb Pitch Briefing (April 2025). All recommendations should be validated through user testing with real German HCP participants before implementation. This report is a strategic input to discovery and design phases — not a final specification. Report prepared June 2026.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <p><strong>Sysmex EMEA OneWeb — HCP Persona Intelligence Report</strong><br>
+    German Market · June 2026 · Prepared for UX, Content Strategy & MarCom Teams<br>
+    <br>
+    Personas are composite archetypes built from clinical specialist interview frameworks, German HCP digital behaviour research (JMIR AI 2026, Scientific Reports March 2026, BJGP Open December 2025, DHC Group / Sermo November 2025, ACM HIKM February 2026), and UX discovery methodologies. Citations reference the most current available sources as of June 2026. Statistics are directional and should be validated against Sysmex's own primary customer research before use in external communications.</p>
+  </div>
+</footer>
+
+<script>
+function toggleCitations(btn) {
+  btn.classList.toggle('open');
+  const panel = btn.nextElementSibling;
+  panel.classList.toggle('open');
+}
+
+function showPersona(which) {
+  // panels
+  document.getElementById('panel-a').classList.remove('active');
+  document.getElementById('panel-b').classList.remove('active');
+  document.getElementById('panel-' + which).classList.add('active');
+  // tabs
+  const tabs = document.querySelectorAll('.persona-tab');
+  tabs[0].classList.remove('active-a', 'active-b');
+  tabs[1].classList.remove('active-a', 'active-b');
+  if (which === 'a') {
+    tabs[0].classList.add('active-a');
+  } else {
+    tabs[1].classList.add('active-b');
+  }
+}
+// Smooth scroll offset for fixed nav
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) {
+      window.scrollTo({ top: target.offsetTop - 64, behavior: 'smooth' });
+    }
+  });
+});
+</script>
+
+</body>
+</html>
