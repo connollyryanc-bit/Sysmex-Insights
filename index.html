@@ -218,6 +218,10 @@
   .persona-tab:last-child { border-right: none; }
   .persona-tab.active-a { background: var(--persona-a); }
   .persona-tab.active-b { background: var(--persona-b); }
+  .persona-tab.active-c { background: #7A2238; }
+  .persona-tab.active-c .tab-role { display: block; }
+  .persona-tab.active-c .tab-name-inactive { display: none; }
+  .persona-tab.active-c .tab-name { display: block; }
   .persona-tab .tab-role {
     font-family: 'DM Mono', monospace;
     font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase;
@@ -1038,7 +1042,7 @@ footer strong{color:rgba(255,255,255,0.5)}
     <div class="ph-mode-card human-card" onclick="setMode('human'); document.getElementById('h-context').scrollIntoView({behavior:'smooth'})">
       <div class="phmc-label" style="color:var(--sysmex-mid)">👤 Human Audiences</div>
       <div class="phmc-title">HCP Persona Intelligence</div>
-      <div class="phmc-desc">EMEA · 5 Audience Segments · Dr. Hoffmann · Dr. Richter · POC Practitioner · Insights Discovery · JTBD · Human × LLM Segments</div>
+      <div class="phmc-desc">EMEA · 3 Deep Personas · Dr. Hoffmann · Dr. Richter · Dr. Navarro (POC) · Insights Discovery · JTBD · Human × LLM Segments</div>
       <div class="phmc-sections">
         <span class="phmc-pill">Research Context</span>
         <span class="phmc-pill">The Search→Ask Shift</span>
@@ -1213,8 +1217,8 @@ footer strong{color:rgba(255,255,255,0.5)}
 <section class="persona-section" id="personas">
   <div class="container">
     <div class="section-label">Deep Persona Profiles · EMEA</div>
-    <h2 class="section-title">Meet the two HCPs who<br>define your core audience</h2>
-    <p class="section-desc">Two deep personas representing the core clinical decision-making archetypes in European diagnostic laboratories — built from composite specialist interview data and European healthcare professional behaviour patterns. While rooted in the German market (Sysmex Europe SE HQ in Hamburg), the behavioural patterns hold across EMEA.</p>
+    <h2 class="section-title">Meet the three HCPs who<br>define your core audience</h2>
+    <p class="section-desc">Three deep personas representing the clinical decision-making ecosystem across European diagnostic laboratories, point-of-care practices, and specialist physician settings — built from composite specialist interview data and European healthcare professional behaviour patterns. While rooted in the German market (Sysmex Europe SE HQ in Hamburg), the behavioural patterns hold across EMEA.</p>
 
     <div class="persona-tabs">
       <button class="persona-tab active-a" onclick="showPersona('a')">
@@ -1226,6 +1230,11 @@ footer strong{color:rgba(255,255,255,0.5)}
         <div class="tab-role">Persona 02 · Clinical Physician</div>
         <div class="tab-name">Dr. Claudia Richter</div>
         <div class="tab-name-inactive">Dr. Claudia Richter — Haematology Specialist</div>
+      </button>
+      <button class="persona-tab" id="tab-c" onclick="showPersona('c')">
+        <div class="tab-role">Persona 03 · POC Practitioner</div>
+        <div class="tab-name">Dr. Sophie Navarro</div>
+        <div class="tab-name-inactive">Dr. Sophie Navarro — GP &amp; Practice Owner</div>
       </button>
     </div>
 
@@ -1631,6 +1640,211 @@ footer strong{color:rgba(255,255,255,0.5)}
         <div class="citations-note">Personas are composite archetypes. Quotes are illustrative constructs representing documented attitudinal patterns — not statements from real individuals. Photos are licensed stock imagery used for humanisation purposes only. Report prepared June 2026.</div>
       </div>
     </div>
+  </div>
+</section>
+
+    <!-- PERSONA C -->
+    <div class="persona-panel" id="panel-c">
+      <div class="persona-card">
+        <div class="persona-header">
+          <div class="persona-photo-col" style="background:#7A2238">
+            <img
+              id="sophie-photo"
+              src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=400&q=80&fit=crop&crop=faces,top"
+              alt="Dr. Sophie Navarro"
+              onload="this.style.opacity='1'"
+              onerror="
+                var srcs=[
+                  'https://images.unsplash.com/photo-1651008376811-b90baee60c1f?w=400&q=80&fit=crop&crop=faces,top',
+                  'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&q=80&fit=crop&crop=faces,top'
+                ];
+                var el=this,idx=parseInt(el.dataset.attempt||0);
+                if(idx<srcs.length){el.dataset.attempt=idx+1;el.src=srcs[idx];}
+                else{el.style.display='none';}
+              "
+              style="opacity:0;transition:opacity 0.4s;"
+            >
+            <div class="persona-photo-overlay">
+              <div class="name">Dr. Sophie<br>Navarro</div>
+              <span class="role-tag" style="background:rgba(122,34,56,0.85)">GP &amp; Practice Owner · POC Practitioner</span>
+            </div>
+          </div>
+          <div class="persona-info-col">
+            <div class="persona-meta">
+              <div class="meta-item">
+                <div class="meta-label">Age</div>
+                <div class="meta-value">38</div>
+              </div>
+              <div class="meta-item">
+                <div class="meta-label">Location</div>
+                <div class="meta-value">Lyon, France · EMEA</div>
+              </div>
+              <div class="meta-item">
+                <div class="meta-label">Practice</div>
+                <div class="meta-value">3-room GP practice, 2 doctors</div>
+              </div>
+              <div class="meta-item">
+                <div class="meta-label">Specialisation</div>
+                <div class="meta-value">General Practice · POC Diagnostics</div>
+              </div>
+              <div class="meta-item">
+                <div class="meta-label">Decision Role</div>
+                <div class="meta-value">Owner-operator · Budget holder</div>
+              </div>
+              <div class="meta-item">
+                <div class="meta-label">Insights Colour</div>
+                <div class="meta-value" style="color:#C48A10">🟡 Sunshine Yellow + Fiery Red</div>
+              </div>
+            </div>
+            <div class="persona-quote" style="border-left-color:#993556">
+              "J'ai besoin que ça marche dans mon cabinet, pas dans un hôpital universitaire. Donnez-moi un résultat en 5 minutes, sans technicien, et montrez-moi que d'autres médecins comme moi l'utilisent."<br>
+              <em style="font-size:0.82rem;color:var(--slate)">"I need it to work in my practice, not a university hospital. Give me a result in 5 minutes, no technician needed, and show me other doctors like me are using it."</em>
+            </div>
+            <p class="section-desc" style="font-size:0.9rem;color:var(--slate);line-height:1.75">Sophie owns and runs a 3-room general practice in Lyon with one partner GP. She sees 25–30 patients a day and has been considering adding point-of-care blood and urine diagnostics to reduce referrals and improve patient retention. She is the sole decision-maker and budget holder — there is no committee, no IT department, and no procurement process. Her research happens on her phone between appointments. She trusts other GPs more than any vendor, and she has found Perplexity useful for finding what practitioners in French-speaking Europe are actually using. She also treats small animals occasionally and is aware Sysmex has veterinary products — making her a dual-audience contact.</p>
+          </div>
+        </div>
+        <div class="persona-body">
+          <div class="persona-body-grid">
+            <div class="pcard">
+              <h3><span class="pcard-icon">🎯</span> Core Goals</h3>
+              <ul class="list-clean" style="--accent:#993556">
+                <li style="--before-color:#993556">Reduce unnecessary patient referrals to hospital labs by handling routine bloods in-practice</li>
+                <li>Give patients a result in the same appointment — improve retention and satisfaction</li>
+                <li>Keep total device cost under €15,000 including reagents and servicing</li>
+                <li>Choose a device that one nurse can operate without specialist training</li>
+                <li>Ensure the device qualifies for local health authority reimbursement codes</li>
+                <li>Find a solution that scales if she opens a second practice location</li>
+              </ul>
+            </div>
+            <div class="pcard">
+              <h3><span class="pcard-icon">😤</span> Pain Points &amp; Frustrations</h3>
+              <ul class="list-clean">
+                <li>Vendor websites designed for hospital procurement — product names she doesn't recognise, specs she doesn't need</li>
+                <li>No clear answer on whether her local health authority recognises a device for reimbursement</li>
+                <li>Can't find authentic peer reviews from GPs or practice owners — only distributor testimonials</li>
+                <li>Technical documentation in English only — she needs French-language support materials</li>
+                <li>Can't trial a device without committing to a sales rep relationship she doesn't have time for</li>
+                <li>No visibility of total running cost — reagent subscriptions, calibration, maintenance hidden</li>
+              </ul>
+            </div>
+            <div class="pcard">
+              <h3><span class="pcard-icon">📱</span> Digital Behaviour</h3>
+              <div style="margin-bottom:0.8rem">
+                <div class="meta-label" style="margin-bottom:0.4rem">Devices</div>
+                <div class="tag-list"><span class="tag">iPhone (primary — between patients)</span><span class="tag">Laptop (evenings)</span></div>
+              </div>
+              <div style="margin-bottom:0.8rem">
+                <div class="meta-label" style="margin-bottom:0.4rem">AI Tools Used</div>
+                <div class="tag-list"><span class="tag" style="background:rgba(196,138,16,0.1);border-color:rgba(196,138,16,0.2);color:#8A6008">Perplexity</span><span class="tag" style="background:rgba(196,69,53,0.08);border-color:rgba(196,69,53,0.2);color:#A33025">ChatGPT</span></div>
+              </div>
+              <div style="margin-bottom:0.8rem">
+                <div class="meta-label" style="margin-bottom:0.4rem">Trusted Sources</div>
+                <div class="tag-list"><span class="tag teal">GP peer forums</span><span class="tag teal">MG France community</span><span class="tag teal">Medscape France</span><span class="tag teal">Colleague WhatsApp</span></div>
+              </div>
+              <div>
+                <div class="meta-label" style="margin-bottom:0.4rem">Behaviour Pattern</div>
+                <div class="tag-list"><span class="tag amber">Mobile-first</span><span class="tag amber">Peer-validation driven</span><span class="tag amber">Fast decision once trust established</span></div>
+              </div>
+            </div>
+            <div class="pcard">
+              <h3><span class="pcard-icon">✅</span> Needs on the Sysmex Website</h3>
+              <ul class="list-clean">
+                <li>A dedicated POC / small practice entry point — not buried in a haematology lab product hierarchy</li>
+                <li>Named GP and practice owner testimonials — real people, real practices, real country contexts across EMEA</li>
+                <li>Clear total cost of ownership calculator — device + reagents + servicing + training per year</li>
+                <li>Local reimbursement code guidance by country (HAS in France, NHS tariffs in UK, AEMPS in Spain)</li>
+                <li>French, Spanish, Italian language content — this audience will not engage with English-only pages</li>
+                <li>A no-sales-rep demo pathway — she wants to evaluate without entering a sales funnel immediately</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- VPC C -->
+          <div class="vpc-section">
+            <div class="vpc-title">Value Proposition Canvas — Dr. Navarro</div>
+            <div class="vpc-sub">Mapping Sysmex's POC value to Sophie's practice-owner world</div>
+            <div class="vpc-grid">
+              <div class="vpc-side">
+                <div class="vpc-side-title" style="border-color:#993556;color:#993556">Value Map — What Sysmex Delivers</div>
+                <div class="vpc-block">
+                  <div class="vpc-block-label">🛠 Products &amp; Services</div>
+                  <div class="vpc-items">
+                    <div class="vpc-item">Table-top POC analysers for blood and urine — sized for a consulting room, not a lab</div>
+                    <div class="vpc-item">Reagent subscription models with transparent per-test costing</div>
+                    <div class="vpc-item">Multilingual operator training materials — no specialist required</div>
+                    <div class="vpc-item">European reimbursement guidance by country for qualifying devices</div>
+                  </div>
+                </div>
+                <div class="vpc-block">
+                  <div class="vpc-block-label">🟢 Gain Creators</div>
+                  <div class="vpc-items">
+                    <div class="vpc-item">Same-appointment results improve patient experience and reduce referral rate</div>
+                    <div class="vpc-item">Named peer GP testimonials from France, Spain, Netherlands build authentic trust</div>
+                    <div class="vpc-item">Transparent TCO calculator removes the hidden cost anxiety preventing commitment</div>
+                  </div>
+                </div>
+                <div class="vpc-block">
+                  <div class="vpc-block-label">🔴 Pain Relievers</div>
+                  <div class="vpc-items">
+                    <div class="vpc-item">Practice-sized entry point removes the hospital-scale navigation barrier</div>
+                    <div class="vpc-item">Local-language content and reimbursement guidance removes the English-only friction</div>
+                    <div class="vpc-item">Self-serve demo pathway lets her evaluate without a sales rep commitment</div>
+                  </div>
+                </div>
+              </div>
+              <div class="vpc-divider"></div>
+              <div class="vpc-side">
+                <div class="vpc-side-title" style="border-color:#C48A10;color:#8A6008">Customer Profile — Sophie's World</div>
+                <div class="vpc-block">
+                  <div class="vpc-block-label">📋 Jobs to be Done</div>
+                  <div class="vpc-items">
+                    <div class="vpc-item">Diagnose and manage routine conditions faster — reduce same-day referral rate by 30%</div>
+                    <div class="vpc-item">Evaluate a POC device purchase within her practice budget without a formal tender process</div>
+                    <div class="vpc-item">Validate her decision by finding proof that equivalent practices across Europe use it</div>
+                  </div>
+                </div>
+                <div class="vpc-block">
+                  <div class="vpc-block-label">😊 Gains Desired</div>
+                  <div class="vpc-items">
+                    <div class="vpc-item">Confidence: knowing a GP like her in Lyon, Madrid, or Amsterdam already uses this</div>
+                    <div class="vpc-item">Speed: a purchase decision she can make in a week, not a procurement cycle</div>
+                    <div class="vpc-item">Simplicity: one device, one reagent supplier, one service contract — no complexity</div>
+                  </div>
+                </div>
+                <div class="vpc-block">
+                  <div class="vpc-block-label">😫 Pains Experienced</div>
+                  <div class="vpc-items">
+                    <div class="vpc-item">Website built for hospital procurement — she can't find herself in it</div>
+                    <div class="vpc-item">No authentic peer voice from GPs — only distributor-commissioned testimonials</div>
+                    <div class="vpc-item">Reimbursement question unanswered — she won't buy without knowing the economics</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Citations for POC Persona -->
+          <div class="citations-block">
+            <button class="citations-toggle" onclick="toggleCitations(this)">
+              <span class="caret">▶</span> Sources &amp; Citations for this persona
+            </button>
+            <div class="citations-panel">
+              <ol>
+                <li><strong>POC Diagnostics in European General Practice:</strong> European Society of General Practice / Family Medicine (WONCA Europe). <em>Point-of-Care Testing in European Primary Care: A Position Statement.</em> WONCA Europe, 2024. Documents the growing adoption of POC haematology and urinalysis devices in European GP settings, practice size distributions, and reimbursement framework variations across member states.</li>
+                <li><strong>GP Practice Ownership and Decision-Making (France):</strong> Direction de la recherche, des études, de l'évaluation et des statistiques (DREES). <em>Les médecins généralistes libéraux en 2023.</em> DREES, 2024. Documents practice structure, patient volume, and equipment investment patterns of independent GPs in France — informing the Sophie archetype's practice context.</li>
+                <li><strong>POC Device Reimbursement Frameworks — Europe:</strong> European Commission. <em>European Reference Network on Rare Diseases and IVDR Implementation: Country Profiles.</em> EC, 2025. HAS (France), NHS England tariff guidance (2025/26), AEMPS (Spain) — national reimbursement frameworks for IVDR-compliant POC diagnostic devices.</li>
+                <li><strong>Perplexity as Primary Research Tool for Time-Pressured Professionals:</strong> Stackmatix. <em>Perplexity AI Optimisation Strategy for Healthcare Content.</em> March 2026. Documents time-pressured professional use cases as the primary Perplexity growth segment — directly supporting the mobile-first, between-appointments query behaviour of the POC Practitioner archetype.</li>
+                <li><strong>Veterinary POC Diagnostics Market — Europe:</strong> Grand View Research. <em>Europe Veterinary Diagnostics Market Size &amp; Forecast 2025–2030.</em> GVR, 2025. Documents veterinary practice diagnostics as a distinct and growing POC segment across European markets — informing the dual-audience note for the Sophie persona.</li>
+                <li><strong>Insights Discovery® Profiling:</strong> Insights Group Ltd. <em>Insights Discovery® Personal Profile System.</em> Dundee: Insights Group, 2025 edition. Sunshine Yellow + Fiery Red mapping applied directionally for UX and communication design purposes. Not a licensed assessment.</li>
+              </ol>
+              <div class="citations-note">Dr. Sophie Navarro is a composite archetype representing European POC practitioner behaviour patterns — built from published primary care research, WONCA Europe position statements, and European reimbursement framework documentation. The French setting was selected as representative of a mid-sized EMEA affiliate market — the behavioural patterns hold across French, Spanish, Italian, Dutch, and other European GP practice contexts. Report prepared June 2026.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 </section>
@@ -2183,7 +2397,7 @@ footer strong{color:rgba(255,255,255,0.5)}
         <div style="padding:1rem 1.25rem">
           <div style="font-size:9px;font-family:'DM Mono',monospace;letter-spacing:0.12em;text-transform:uppercase;color:var(--slate);margin-bottom:3px">Segment 01</div>
           <div style="font-size:1rem;font-weight:600;color:var(--ink);margin-bottom:2px">The Discoverer</div>
-          <div style="font-size:0.75rem;color:var(--slate);margin-bottom:8px">Dr. Claudia Richter archetype · Haematology Specialist</div>
+          <div style="font-size:0.75rem;color:var(--slate);margin-bottom:8px">Dr. Claudia Richter archetype · Haematology Specialist · EMEA</div>
           <div style="font-size:0.78rem;line-height:1.55;color:var(--ink);padding:8px 10px;border-radius:6px;background:var(--mist);border-left:2.5px solid #C48A10;font-style:italic">I'm not looking for a product. I'm trying to understand a disease, a diagnostic challenge, a patient in front of me. The solution might emerge — but that's not where I start.</div>
         </div>
       </div>
@@ -3046,12 +3260,15 @@ function setMode(mode) {
 function showPersona(which) {
   document.getElementById('panel-a').classList.remove('active');
   document.getElementById('panel-b').classList.remove('active');
+  document.getElementById('panel-c').classList.remove('active');
   document.getElementById('panel-' + which).classList.add('active');
   const tabs = document.querySelectorAll('.persona-tab');
-  tabs[0].classList.remove('active-a', 'active-b');
-  tabs[1].classList.remove('active-a', 'active-b');
+  tabs[0].classList.remove('active-a', 'active-b', 'active-c');
+  tabs[1].classList.remove('active-a', 'active-b', 'active-c');
+  tabs[2].classList.remove('active-a', 'active-b', 'active-c');
   if (which === 'a') tabs[0].classList.add('active-a');
-  else tabs[1].classList.add('active-b');
+  else if (which === 'b') tabs[1].classList.add('active-b');
+  else tabs[2].classList.add('active-c');
 }
 
 // citations toggle
